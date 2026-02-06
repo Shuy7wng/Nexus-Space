@@ -1,0 +1,1 @@
+<!-- Spiegazione degli eventi  -->
