@@ -15,7 +15,7 @@
         <ul>
             <li><a href="index.php">Home</a></li>
             <li><a href="eventi.php">Eventi</a></li>
-            <li><a href="login.php"><img src="login-icon.png" alt="Login"></a></li>
+            <li><a href="login.php"><img src="login-icon.png" alt="Login" class="Login"></a></li>
         </ul>
     </nav>
     

@@ -25,7 +25,7 @@ header {
 }
 .Login {
     width: 30px;  /* dimensione desiderata */
-    height: auto; /* mantiene le proporzioni */
+    height: 30px; /* mantiene le proporzioni */
 }
 
 nav {
