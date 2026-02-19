@@ -1,40 +1,53 @@
 <?php
 session_start();
-require_once "../config/database.php";
+require_once __DIR__ . '/../config/database.php'; // file con connessione al DB
 
-$message = '';
+$errore = "";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-    $nickname = $_POST['nickname'];
+    $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $stmt = $conn->prepare("SELECT ID_Utente, Password, Ruolo FROM Utenti WHERE Nickname = ?");
-    $stmt->bind_param("s", $nickname);
+    // Prepara la query
+    $stmt = $conn->prepare("SELECT ID_Utente, Password FROM Utenti WHERE Email = ?");
+    $stmt->bind_param("s", $email);
     $stmt->execute();
-    $stmt->store_result();
+    $result = $stmt->get_result();
 
-    if ($stmt->num_rows > 0) {
-
-        $stmt->bind_result($id, $hashed_password, $ruolo);
-        $stmt->fetch();
-
-        if (password_verify($password, $hashed_password)) {
-
-            $_SESSION['id'] = $id;
-            $_SESSION['nickname'] = $nickname;
-            $_SESSION['ruolo'] = $ruolo;
-
-            header("Location: dashboard.php");
+    if ($result->num_rows == 1) {
+        $utente = $result->fetch_assoc();
+        if (password_verify($password, $utente['Password'])) {
+            $_SESSION['user_id'] = $utente['ID_Utente'];
+            header("Location: /nexus-space/pages/index.php");
             exit();
-
         } else {
-            $message = "Password errata!";
+            $errore = "Password errata.";
         }
     } else {
-        $message = "Utente non trovato!";
+        $errore = "Email non trovata.";
     }
-
-    $stmt->close();
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Nexus</title>
+    <link rel="stylesheet" href="/nexus-space/assets/css/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="form-container">
+    <h2>Login</h2>
+    <?php if($errore) echo "<p class='error'>$errore</p>"; ?>
+    <form method="POST">
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Accedi</button>
+        <p>Non hai un account? <a href="signup.php">Registrati</a></p>
+    </form>
+</div>
+</body>
+</html>
