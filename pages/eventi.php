@@ -2,6 +2,7 @@
 session_start();
 
 require_once __DIR__ . "/../config/database.php";
+include __DIR__ . '/../includes/header.php';
 
 // Se l'utente è loggato recupero il ruolo, altrimenti lo setto a null
 $ruolo = $_SESSION['role'] ?? null;
@@ -10,7 +11,6 @@ $ruolo = $_SESSION['role'] ?? null;
 $query = "SELECT * FROM eventi ORDER BY Nome ASC";
 $risultato = $conn->query($query);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="it">
@@ -21,23 +21,6 @@ $risultato = $conn->query($query);
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
-
-    <header class="header">
-        <div class="logo">
-            <img src="/Nexus-Space/assets/img/logo.png" alt="Nexus Space Logo">
-        </div>
-        <nav class="nav">
-            <a href="index.php">Home</a>
-            <a href="eventi.php">Eventi</a>
-            <a href="contatti.php">Contatti</a>
-            <div class="profile-icon">
-                <a href="profilo.php">
-                    <img src="/Nexus-Space/assets/img/login-icon.png" alt="Profilo">
-                </a>
-            </div>
-        </nav>
-    </header>
-
     <section class="hero-eventi">
         <div class="hero-text">
             <h1 class="playfair">Nexus Events</h1>
