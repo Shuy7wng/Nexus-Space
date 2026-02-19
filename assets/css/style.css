@@ -1,0 +1,196 @@
+:root {
+    --sabbia: #B5A772;
+    --verde-scuro: #2B3025;
+    --verde-oliva: #555F47;
+    --verde-profondo: #484F3C;
+    --beige: #C7C4AE;
+    --bianco: #f8f8f6;
+}
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bianco);
+    color: var(--verde-scuro);
+    line-height: 1.6;
+}
+
+/* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 60px;
+    border-bottom: 1px solid var(--beige);
+    background-color: var(--bianco);
+}
+
+.logo img {
+    height: 55px;
+}
+
+.nav a {
+    margin-left: 40px;
+    text-decoration: none;
+    color: var(--verde-profondo);
+    font-weight: 400;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+/* linea elegante hover */
+.nav a::after {
+    content: "";
+    width: 0;
+    height: 1px;
+    background: var(--sabbia);
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    transition: 0.3s ease;
+}
+
+.nav a:hover::after {
+    width: 100%;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.nav-right {
+    margin-left: auto;
+}
+
+.profile-icon img {
+    height: 28px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    opacity: 0.8;
+}
+
+.profile-icon img:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* HERO */
+.hero {
+    height: 85vh;
+    background-color: var(--verde-scuro);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--bianco);
+    padding: 0 20px;
+}
+
+.hero-text h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.hero-text p {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    color: var(--beige);
+}
+
+.btn {
+    padding: 14px 40px;
+    background-color: var(--sabbia);
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    transition: 0.3s ease;
+}
+
+.btn:hover {
+    background-color: var(--beige);
+}
+
+/* COLLECTION */
+.collection {
+    padding: 100px 60px;
+    text-align: center;
+}
+
+.collection h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    margin-bottom: 60px;
+}
+
+.gallery {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+}
+
+.art-card {
+    width: 280px;
+}
+
+.art-img {
+    height: 350px;
+    background-color: var(--verde-oliva);
+    margin-bottom: 20px;
+    transition: 0.4s ease;
+}
+
+.art-card:hover .art-img {
+    background-color: var(--verde-profondo);
+}
+
+.art-card h3 {
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 8px;
+}
+
+.art-card p {
+    font-size: 0.9rem;
+    color: var(--verde-oliva);
+}
+
+/* FOOTER */
+.footer {
+    background-color: var(--verde-profondo);
+    color: var(--beige);
+    padding: 40px;
+    text-align: center;
+    margin-top: 80px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .header {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .nav a {
+        margin-left: 20px;
+    }
+
+    .hero-text h1 {
+        font-size: 2.8rem;
+    }
+
+    .gallery {
+        gap: 40px;
+    }
+}
