@@ -1,40 +1,10 @@
 <?php
-session_start();
-require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . "/../middleware/auth.php";
+require_once __DIR__ . "/../config/database.php";
 
-// Controllo se l'utente è loggato
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
-
-// Ricavo l'ID dell'utente
 $user_id = $_SESSION['user_id'];
 
-// Gestione caricamento nuova immagine profilo
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['new_pfp'])) { 
-    $target_dir = "../uploads/profili/"; // cartella in cui verranno inserite le immagini degli utenti
-
-    // Quando si carica un file, PHP lo inserisce in una cartella temporanea quindi ne ricavo il percorso
-    $file_extension = strtolower(pathinfo($_FILES["new_pfp"]["name"], PATHINFO_EXTENSION));
-
-    // Dato che le immagini sono salvate nella cartella, creo dei nomi delle immagini univoci (in modo da evitare utenti con lo stesso nome immagine)
-    // Il nuovo nome del file sarà composto da ID_USER e dal timestamp corrente
-    $new_filename = "user_" . $user_id . "_" . time() . "." . $file_extension;
-
-    // Creo il percorso del file 
-    $target_file = $target_dir . $new_filename;
-
-    // Se questa funzione ritorna TRUE, lo spostamento del file è andato a buon fine, dunque inserisco il percorso dell'immagine anche nel database
-    if (move_uploaded_file($_FILES["new_pfp"]["tmp_name"], $target_file)) {
-        $db_path = "uploads/profili/" . $new_filename;
-        $stmt = $conn->prepare("UPDATE utenti SET Percorso_File = ? WHERE ID_Utente = ?");
-        $stmt->bind_param("si", $db_path, $user_id);
-        $stmt->execute();
-    }
-}
-
-// Recupero dati dell'utente
+// Recupero dati completi + Ruolo
 $stmt = $conn->prepare("
     SELECT u.*, r.Nome_ruolo 
     FROM utenti u 
@@ -44,32 +14,40 @@ $stmt = $conn->prepare("
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $user = $stmt->get_result()->fetch_assoc();
+
+// Recupero Storico (Commenti e Like)
+$stmt_com = $conn->prepare("SELECT c.Commento, o.Titolo FROM commenti c JOIN opere o ON c.ID_Opera = o.ID_Opera WHERE c.ID_Utente = ?");
+$stmt_com->bind_param("i", $user_id);
+$stmt_com->execute();
+$commenti = $stmt_com->get_result();
+
+$stmt_like = $conn->prepare("SELECT o.Titolo FROM like_opere l JOIN opere o ON l.ID_Opera = o.ID_Opera WHERE l.ID_Utente = ?");
+$stmt_like->bind_param("i", $user_id);
+$stmt_like->execute();
+$likes = $stmt_like->get_result();
 ?>
 
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Profilo - Nexus Space</title>
-    <link rel="stylesheet" href="/Nexus-Space/assets/css/style.css">
     <link rel="stylesheet" href="/Nexus-Space/assets/css/profilo.css">
+    <title>Profilo - Nexus Space</title>
 </head>
-<body class="bg-light">
-
+<body>
     <div class="profile-container">
         <h2 class="profile-title">Il Mio Account</h2>
         
         <div class="profile-header">
             <div class="pfp-section">
                 <div class="pfp-wrapper">
-                    <img src="/Nexus-Space/<?php echo $user['Percorso_File'] ?? 'assets/img/default_pfp.png'; ?>" alt="PFP">
+                    <img src="/Nexus-Space/<?php echo $user['Percorso_File'] ?? 'assets/img/default_pfp.png'; ?>">
                 </div>
                 <form action="profilo.php" method="POST" enctype="multipart/form-data">
-                    <label for="pfp_input" class="change-pfp-label">Aggiorna Foto</label>
+                    <label for="pfp_input" class="change-pfp-label">Change pfp</label>
                     <input type="file" id="pfp_input" name="new_pfp" style="display: none;" onchange="this.form.submit()">
                 </form>
             </div>
-
             <div class="nickname-box">
                 @<?php echo htmlspecialchars($user['Nickname']); ?>
                 <span class="role-badge"><?php echo $user['Nome_ruolo']; ?></span>
@@ -78,7 +56,7 @@ $user = $stmt->get_result()->fetch_assoc();
 
         <div class="info-grid">
             <div class="info-item">
-                <label>Nome Completo</label>
+                <label>Nome e Cognome</label>
                 <p><?php echo htmlspecialchars($user['Nome'] . " " . $user['Cognome']); ?></p>
             </div>
             <div class="info-item">
@@ -91,11 +69,31 @@ $user = $stmt->get_result()->fetch_assoc();
             </div>
         </div>
 
+        <div class="history-grid">
+            <div class="history-section">
+                <h3>Comment History</h3>
+                <div class="history-list">
+                    <?php while($c = $commenti->fetch_assoc()): ?>
+                        <div class="history-item">
+                            <strong><?php echo $c['Titolo']; ?>:</strong> "<?php echo $c['Commento']; ?>"
+                        </div>
+                    <?php endwhile; ?>
+                </div>
+            </div>
+            <div class="history-section">
+                <h3>Like History</h3>
+                <div class="history-list">
+                    <?php while($l = $likes->fetch_assoc()): ?>
+                        <div class="history-item">Hai messo like a <strong><?php echo $l['Titolo']; ?></strong></div>
+                    <?php endwhile; ?>
+                </div>
+            </div>
+        </div>
+
         <div class="profile-footer">
-            <a href="index.php" class="btn-outline">Torna alla Galleria</a>
-            <a href="logout.php" class="btn-logout">Logout</a>
+            <a href="index.php" class="btn-outline">Home</a>
+            <a href="../logout.php" style="margin-left:20px; color:var(--verde-oliva);">Logout</a>
         </div>
     </div>
-
 </body>
 </html>

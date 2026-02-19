@@ -1,8 +1,7 @@
 <?php
-require_once "auth.php";
-
-if ($_SESSION['ruolo'] !== 'Artista') {
-    header("Location: dashboard.php");
+require_once __DIR__ . "/auth.php";
+if ($_SESSION['role'] != 2) { // 2 = Artista
+    header("Location: /Nexus-Space/pages/index.php");
     exit();
 }
 ?>
