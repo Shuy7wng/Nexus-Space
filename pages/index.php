@@ -18,11 +18,10 @@
     </div>
 
     <nav class="nav">
-        <a href="#">Home</a>
-        <a href="#">Opere</a>
-        <a href="#">Artisti</a>
-        <a href="#">Eventi</a>
-        <a href="#">Contatti</a>
+        <a href="index.php">Home</a>
+        <a href="artisti.php">Artisti</a>
+        <a href="eventi.php">Eventi</a>
+        <a href="contatti.php">Contatti</a>
         
         <!--Immagine profilo-->
         <div class="nav-right">

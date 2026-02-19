@@ -1,0 +1,231 @@
+:root {
+    --sabbia: #B5A772;
+    --verde-scuro: #2B3025;
+    --verde-oliva: #555F47;
+    --verde-profondo: #484F3C;
+    --beige: #C7C4AE;
+    --bianco: #f8f8f6;
+}
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bianco);
+    color: var(--verde-scuro);
+    line-height: 1.6;
+}
+
+/* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 60px;
+    border-bottom: 1px solid var(--beige);
+    background-color: var(--bianco);
+}
+
+.logo img {
+    height: 55px;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+}
+
+.nav a {
+    margin-left: 40px;
+    text-decoration: none;
+    color: var(--verde-profondo);
+    font-weight: 400;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+.nav a::after {
+    content: "";
+    width: 0;
+    height: 1px;
+    background: var(--sabbia);
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    transition: 0.3s ease;
+}
+
+.nav a:hover::after {
+    width: 100%;
+}
+
+.profile-icon img {
+    height: 28px;
+    margin-left: 40px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    opacity: 0.8;
+}
+
+.profile-icon img:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* HERO EVENTI */
+.hero-eventi {
+    height: 60vh;
+    background-color: var(--verde-scuro);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--bianco);
+    padding: 0 20px;
+}
+
+.hero-text h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.hero-text p {
+    font-size: 1.1rem;
+    color: var(--beige);
+}
+
+/* SEZIONE LISTA EVENTI */
+.collection-eventi {
+    padding: 100px 60px;
+    text-align: center;
+}
+
+.collection-eventi h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    margin-bottom: 60px;
+}
+
+/* Griglia che riutilizza lo stile della gallery */
+.gallery-eventi {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+}
+
+.event-card {
+    width: 320px; /* Leggermente più grande delle art-card */
+    text-align: left;
+    border: 1px solid var(--beige);
+    background: #fff;
+    transition: 0.3s ease;
+}
+
+.event-card:hover {
+    border-color: var(--sabbia);
+}
+
+/* Box decorativo al posto della data */
+.event-img-placeholder {
+    height: 180px;
+    background-color: var(--verde-oliva);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--sabbia);
+    font-size: 1.2rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--beige);
+    transition: 0.4s ease;
+}
+
+.event-card:hover .event-img-placeholder {
+    background-color: var(--verde-profondo);
+    color: var(--bianco);
+}
+
+/* Regoliamo la card per essere più verticale e simile a un poster */
+.event-card {
+    width: 320px;
+    display: flex;
+    flex-direction: column; /* Gli elementi vanno uno sotto l'altro */
+    background: #fff;
+    border: 1px solid var(--beige);
+    transition: 0.3s ease;
+}
+
+.event-info {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.event-desc {
+    margin-bottom: 20px;
+    min-height: 60px; /* Assicura allineamento anche con descrizioni brevi */
+}
+
+/* BOTTONI */
+.btn-action {
+    display: inline-block;
+    padding: 10px 25px;
+    background-color: var(--sabbia);
+    color: var(--verde-scuro);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    transition: 0.3s ease;
+}
+
+.btn-action:hover {
+    background-color: var(--beige);
+}
+
+.btn-admin {
+    background-color: transparent;
+    border: 1px solid var(--verde-oliva);
+    color: var(--verde-oliva);
+    margin-bottom: 40px;
+}
+
+/* FOOTER */
+.footer {
+    background-color: var(--verde-profondo);
+    color: var(--beige);
+    padding: 60px 40px;
+    text-align: center;
+    margin-top: 80px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .header {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .nav a, .profile-icon img {
+        margin-left: 20px;
+    }
+
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+
+    .gallery-eventi {
+        gap: 30px;
+    }
+}

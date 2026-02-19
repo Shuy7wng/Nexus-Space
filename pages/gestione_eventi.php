@@ -5,3 +5,7 @@ Un admin può modificare o eliminare un evento.
 La pagina mostra le varie richieste con due semplici bottoni si puo accettare o rifiutare 
 
  -->
+<?php 
+require 'auth.php';
+requireRole([1]); // 1 = Admin, solo l'Admin può visualizzare questa pagina
+?>

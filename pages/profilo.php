@@ -1,6 +1,14 @@
 <?php
-require_once __DIR__ . "/../middleware/auth.php";
 require_once __DIR__ . "/../config/database.php";
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: /Nexus-Space/pages/login.php");
+    exit();
+}
 
 $user_id = $_SESSION['user_id'];
 
@@ -92,7 +100,7 @@ $likes = $stmt_like->get_result();
 
         <div class="profile-footer">
             <a href="index.php" class="btn-outline">Home</a>
-            <a href="../logout.php" style="margin-left:20px; color:var(--verde-oliva);">Logout</a>
+            <a href="logout.php" style="margin-left:20px; color:var(--verde-oliva);">Logout</a>
         </div>
     </div>
 </body>
