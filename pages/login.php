@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
 
     // Prepara la query
-    $stmt = $conn->prepare("SELECT ID_Utente, Password FROM Utenti WHERE Email = ?");
+    $stmt = $conn->prepare("SELECT ID_Utente, ID_Ruolo, Password FROM Utenti WHERE Email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $utente = $result->fetch_assoc();
         if (password_verify($password, $utente['Password'])) {
             $_SESSION['user_id'] = $utente['ID_Utente'];
+            $_SESSION['role'] = $utente['ID_Ruolo'];
             header("Location: /nexus-space/pages/index.php");
             exit();
         } else {
