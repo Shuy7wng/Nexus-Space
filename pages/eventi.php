@@ -53,8 +53,6 @@ $risultato = $conn->query($query);
                                 <div class="event-actions">
                                     <?php if ($ruolo == 1): ?>
                                         <a href="modifica_evento.php?id=<?php echo $evento['ID_Evento']; ?>" class="btn-action">Modifica</a>
-                                    <?php elseif ($ruolo == 2): ?>
-                                        <a href="request.php?id_evento=<?php echo $evento['ID_Evento']; ?>" class="btn-action">Invia Opera</a>
                                     <?php else: ?>
                                         <span class="badge-info">Scopri di più</span>
                                     <?php endif; ?>

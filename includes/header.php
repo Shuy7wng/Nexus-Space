@@ -14,19 +14,19 @@ $ruolo = $_SESSION['role'] ?? null;
 
     <nav class="nav">
         <a href="index.php">Home</a>
-        <a href="artisti.php">Artisti</a>
         <a href="eventi.php">Eventi</a>
         <a href="contatti.php">Contatti</a>
 
         <!-- Link solo Admin -->
         <?php if ($ruolo === 1): ?>
             <a href="gestione_utenti.php">Utenti</a>
-            <a href="richieste_pubblicazione.php">Richieste</a>
+            <a href="gestione_opere.php">Gestione Opere</a>
         <?php endif; ?>
 
         <!-- Link solo Artista -->
         <?php if ($ruolo === 2): ?>
             <a href="le_mie_opere.php">Le mie opere</a>
+            <a href="richiesta.php">Richiesta pubblicazione</a>
         <?php endif; ?>
 
         <div class="nav-right">
