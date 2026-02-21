@@ -7,7 +7,8 @@
     --bianco: #f8f8f6;
 }
 
-/* RESET */
+/* BASE */
+
 * {
     margin: 0;
     padding: 0;
@@ -26,25 +27,30 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 30px 60px;
+    padding: 1.2rem clamp(1.5rem, 5vw, 4rem);
     border-bottom: 1px solid var(--beige);
     background-color: var(--bianco);
 }
 
 .logo img {
-    height: 55px;
+    height: 3rem;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
 }
 
 .nav a {
-    margin-left: 40px;
     text-decoration: none;
     color: var(--verde-profondo);
     font-weight: 400;
-    letter-spacing: 1px;
+    letter-spacing: 0.06rem;
     position: relative;
 }
 
-/* linea elegante hover */
+/* Hover elegante */
 .nav a::after {
     content: "";
     width: 0;
@@ -52,7 +58,7 @@ body {
     background: var(--sabbia);
     position: absolute;
     left: 0;
-    bottom: -5px;
+    bottom: -0.3rem;
     transition: 0.3s ease;
 }
 
@@ -60,18 +66,12 @@ body {
     width: 100%;
 }
 
-.nav {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-}
-
 .nav-right {
     margin-left: auto;
 }
 
 .profile-icon img {
-    height: 28px;
+    height: 1.75rem;
     cursor: pointer;
     transition: 0.3s ease;
     opacity: 0.8;
@@ -84,37 +84,37 @@ body {
 
 /* HERO */
 .hero {
-    height: 85vh;
+    min-height: 90vh;
     background-color: var(--verde-scuro);
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     color: var(--bianco);
-    padding: 0 20px;
+    padding: 0 1.5rem;
 }
 
 .hero-text h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 4rem;
+    font-size: clamp(2rem, 5vw, 4rem);
     font-weight: 700;
-    margin-bottom: 20px;
-    letter-spacing: 2px;
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.12rem;
 }
 
 .hero-text p {
-    font-size: 1.2rem;
-    margin-bottom: 40px;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    margin-bottom: 2.5rem;
     color: var(--beige);
 }
 
 .btn {
-    padding: 14px 40px;
+    padding: 0.9rem 2.5rem;
     background-color: var(--sabbia);
     border: none;
     cursor: pointer;
     font-size: 0.9rem;
-    letter-spacing: 1px;
+    letter-spacing: 0.06rem;
     transition: 0.3s ease;
 }
 
@@ -124,31 +124,35 @@ body {
 
 /* COLLECTION */
 .collection {
-    padding: 100px 60px;
+    padding: clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem);
     text-align: center;
 }
 
 .collection h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    margin-bottom: 60px;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    margin-bottom: 4rem;
 }
 
+/* Gallery moderna */
 .gallery {
-    display: flex;
-    justify-content: center;
-    gap: 60px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 3rem;
 }
 
+/* Card */
 .art-card {
-    width: 280px;
+    width: 100%;
+    max-width: 20rem;
+    margin: 0 auto;
 }
 
 .art-img {
-    height: 350px;
+    aspect-ratio: 4 / 5;
+    width: 100%;
     background-color: var(--verde-oliva);
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
     transition: 0.4s ease;
 }
 
@@ -158,7 +162,7 @@ body {
 
 .art-card h3 {
     font-family: 'Playfair Display', serif;
-    margin-bottom: 8px;
+    margin-bottom: 0.5rem;
 }
 
 .art-card p {
@@ -170,27 +174,23 @@ body {
 .footer {
     background-color: var(--verde-profondo);
     color: var(--beige);
-    padding: 40px;
+    padding: 2.5rem clamp(1.5rem, 5vw, 4rem);
     text-align: center;
-    margin-top: 80px;
 }
 
 /* RESPONSIVE */
-@media (max-width: 900px) {
+@media (max-width: 56rem) {
     .header {
         flex-direction: column;
-        gap: 20px;
+        gap: 1.25rem;
     }
 
-    .nav a {
-        margin-left: 20px;
-    }
-
-    .hero-text h1 {
-        font-size: 2.8rem;
+    .nav {
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
     .gallery {
-        gap: 40px;
+        gap: 2rem;
     }
 }
