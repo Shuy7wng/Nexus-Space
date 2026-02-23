@@ -1,14 +1,4 @@
-:root {
-    --sabbia: #B5A772;
-    --verde-scuro: #2B3025;
-    --verde-oliva: #555F47;
-    --verde-profondo: #484F3C;
-    --beige: #C7C4AE;
-    --bianco: #f8f8f6;
-}
-
 /* BASE */
-
 * {
     margin: 0;
     padding: 0;
@@ -22,66 +12,6 @@ body {
     line-height: 1.6;
 }
 
-/* HEADER */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.2rem clamp(1.5rem, 5vw, 4rem);
-    border-bottom: 1px solid var(--beige);
-    background-color: var(--bianco);
-}
-
-.logo img {
-    height: 3rem;
-}
-
-.nav {
-    display: flex;
-    align-items: center;
-    gap: 2.5rem;
-}
-
-.nav a {
-    text-decoration: none;
-    color: var(--verde-profondo);
-    font-weight: 400;
-    letter-spacing: 0.06rem;
-    position: relative;
-}
-
-/* Hover elegante */
-.nav a::after {
-    content: "";
-    width: 0;
-    height: 1px;
-    background: var(--sabbia);
-    position: absolute;
-    left: 0;
-    bottom: -0.3rem;
-    transition: 0.3s ease;
-}
-
-.nav a:hover::after {
-    width: 100%;
-}
-
-.nav-right {
-    margin-left: auto;
-}
-
-.profile-icon img {
-    height: 1.75rem;
-    cursor: pointer;
-    transition: 0.3s ease;
-    opacity: 0.8;
-}
-
-.profile-icon img:hover {
-    opacity: 1;
-    transform: scale(1.1);
-}
-
 /* HERO */
 .hero {
     min-height: 90vh;
@@ -91,19 +21,18 @@ body {
     align-items: center;
     text-align: center;
     color: var(--bianco);
-    padding: 0 1.5rem;
 }
 
 .hero-text h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 5vw, 4rem);
+    font-size: 3rem;
     font-weight: 700;
     margin-bottom: 1.25rem;
     letter-spacing: 0.12rem;
 }
 
 .hero-text p {
-    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-size: 1.1rem;
     margin-bottom: 2.5rem;
     color: var(--beige);
 }
@@ -124,13 +53,13 @@ body {
 
 /* COLLECTION */
 .collection {
-    padding: clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem);
+    padding: 5rem 5%;
     text-align: center;
 }
 
 .collection h2 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-size: 2.2rem;
     margin-bottom: 4rem;
 }
 
@@ -146,6 +75,11 @@ body {
     width: 100%;
     max-width: 20rem;
     margin: 0 auto;
+    transition: transform 0.3s ease;
+}
+
+.art-card:hover {
+    transform: translateY(-5px);
 }
 
 .art-img {
@@ -170,16 +104,31 @@ body {
     color: var(--verde-oliva);
 }
 
-/* FOOTER */
-.footer {
-    background-color: var(--verde-profondo);
-    color: var(--beige);
-    padding: 2.5rem clamp(1.5rem, 5vw, 4rem);
-    text-align: center;
+/* footer styles moved to base.css */
+
+/* RESPONSIVE: sotto 768px le colonne si impilano */
+@media (max-width: 768px) {
+    .footer-columns .container {
+        grid-template-columns: 1fr;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-columns .col {
+        width: 100%;
+        margin-bottom: 1.5rem;
+    }
+
+    .footer-social {
+        align-items: center;
+    }
+
+    .footer-logo-col {
+        justify-content: center;
+    }
 }
 
-/* RESPONSIVE */
-@media (max-width: 56rem) {
+@media (max-width: 900px) {
     .header {
         flex-direction: column;
         gap: 1.25rem;
@@ -192,5 +141,15 @@ body {
 
     .gallery {
         gap: 2rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .hero-text h1 {
+        font-size: 2rem;
+    }
+
+    .hero-text p {
+        font-size: 1rem;
     }
 }

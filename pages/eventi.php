@@ -2,7 +2,6 @@
 session_start();
 
 require_once __DIR__ . "/../config/database.php";
-include __DIR__ . '/../includes/header.php';
 
 // Se l'utente è loggato recupero il ruolo, altrimenti lo setto a null
 $ruolo = $_SESSION['role'] ?? null;
@@ -16,11 +15,16 @@ $risultato = $conn->query($query);
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Eventi - Nexus Space</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus</title>
+    <link rel="stylesheet" href="/Nexus-Space/assets/css/base.css">
     <link rel="stylesheet" href="/Nexus-Space/assets/css/eventi.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Google Font elegante -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
+    <?php include __DIR__ . '/../includes/header.php'; ?>
     <section class="hero-eventi">
         <div class="hero-text">
             <h1 class="playfair">Nexus Events</h1>
@@ -67,10 +71,7 @@ $risultato = $conn->query($query);
         </div>
     </main>
 
-    <footer class="footer">
-        <p class="playfair">&copy; 2024 Nexus Space - International Art Gallery</p>
-        <p class="inter" style="font-size: 0.8rem; margin-top: 10px; opacity: 0.7;">Tutti i diritti riservati.</p>
-    </footer>
+<?php include __DIR__ . '/../includes/footer.php'; ?>
 
 </body>
 </html>

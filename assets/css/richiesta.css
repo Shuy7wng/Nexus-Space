@@ -1,0 +1,105 @@
+:root {
+    --sabbia: #B5A772;
+    --verde-scuro: #2B3025;
+    --verde-oliva: #555F47;
+    --verde-profondo: #484F3C;
+    --beige: #C7C4AE;
+    --bianco: #f8f8f6;
+}
+
+/* FORM CONTAINER SPECIFICO */
+.opera-form-container {
+    width: min(100%, 56rem);
+    margin: 3rem auto;
+    padding: 2.5rem;
+    border: 1px solid var(--beige);
+    box-shadow: 0 0.25rem 1rem rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+}
+
+.opera-form-container h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--verde-scuro);
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--sabbia);
+    padding-bottom: 0.5rem;
+    width: 100%;
+    text-align: center;
+}
+
+/* FORM GRID */
+.opera-form {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+/* Titolo e Anno stessa riga */
+.opera-form .full-row {
+    grid-column: 1 / -1;
+}
+
+.opera-form label {
+    position: relative;
+    display: block;
+    font-size: 0.85rem;
+    color: var(--verde-oliva);
+}
+
+.opera-form label input,
+.opera-form label textarea,
+.opera-form label select {
+    width: 100%;
+    padding: 0.8rem;
+    margin-top: 0.3rem;
+    border: 1px solid var(--beige);
+    border-radius: 0.3rem;
+    font-size: 0.95rem;
+    color: var(--verde-profondo);
+    background-color: var(--bianco);
+    transition: 0.3s;
+}
+
+.opera-form label input:focus,
+.opera-form label textarea:focus,
+.opera-form label select:focus {
+    outline: none;
+    border-color: var(--sabbia);
+}
+
+/* Textarea descrizione */
+.opera-form textarea {
+    resize: vertical;
+    min-height: 6rem;
+}
+
+/* Bottone invio */
+.opera-form button {
+    grid-column: 1 / -1;
+    padding: 0.8rem 2rem;
+    margin-top: 1rem;
+    background-color: var(--verde-scuro);
+    color: var(--bianco);
+    border: none;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.opera-form button:hover {
+    background-color: var(--sabbia);
+    color: var(--verde-scuro);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .opera-form {
+        grid-template-columns: 1fr;
+    }
+}
