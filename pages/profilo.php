@@ -16,7 +16,7 @@ $user_id = $_SESSION['user_id'];
 $stmt = $conn->prepare("
     SELECT u.*, r.Nome_ruolo 
     FROM utenti u 
-    JOIN ruoli r ON u.ID_Ruolo = r.ID_ruolo 
+    INNER JOIN ruoli r ON u.ID_Ruolo = r.ID_ruolo 
     WHERE u.ID_Utente = ?
 ");
 $stmt->bind_param("i", $user_id);
@@ -24,15 +24,34 @@ $stmt->execute();
 $user = $stmt->get_result()->fetch_assoc();
 
 // Recupero Storico (Commenti e Like)
-$stmt_com = $conn->prepare("SELECT c.Commento, o.Titolo FROM commenti c JOIN opere o ON c.ID_Opera = o.ID_Opera WHERE c.ID_Utente = ?");
+$stmt_com = $conn->prepare("SELECT c.Commento, o.Titolo FROM commenti c INNER JOIN opere o ON c.ID_Opera = o.ID_Opera WHERE c.ID_Utente = ?");
 $stmt_com->bind_param("i", $user_id);
 $stmt_com->execute();
 $commenti = $stmt_com->get_result();
 
-$stmt_like = $conn->prepare("SELECT o.Titolo FROM like_opere l JOIN opere o ON l.ID_Opera = o.ID_Opera WHERE l.ID_Utente = ?");
+$stmt_like = $conn->prepare("SELECT o.Titolo FROM like_opere l INNER JOIN opere o ON l.ID_Opera = o.ID_Opera WHERE l.ID_Utente = ?");
 $stmt_like->bind_param("i", $user_id);
 $stmt_like->execute();
 $likes = $stmt_like->get_result();
+
+// Upload della foto profilo
+if(isset($_FILES['new_pfp']) && $_FILES['new_pfp']['error'] == 0){
+
+    $estensione = pathinfo($_FILES['new_pfp']['name'], PATHINFO_EXTENSION);
+    $nome_file = "user_" . $user_id . "." . $estensione;
+
+    $percorso_salvataggio = "../uploads/profili/" . $nome_file;
+    move_uploaded_file($_FILES['new_pfp']['tmp_name'], $percorso_salvataggio);
+
+    $percorso_db = "uploads/profili/" . $nome_file;
+
+    $update = $conn->prepare("UPDATE utenti SET Percorso_File = ? WHERE ID_Utente = ?");
+    $update->bind_param("si", $percorso_db, $user_id);
+    $update->execute();
+
+    header("Location: profilo.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +68,7 @@ $likes = $stmt_like->get_result();
         <div class="profile-header">
             <div class="pfp-section">
                 <div class="pfp-wrapper">
-                    <img src="/Nexus-Space/<?php echo $user['Percorso_File'] ?? 'assets/img/default_pfp.png'; ?>">
+                    <img src="/Nexus-Space/<?php echo !empty($user['Percorso_File']) ? $user['Percorso_File'] : 'assets/img/login-icon.png'; ?>">
                 </div>
                 <form action="profilo.php" method="POST" enctype="multipart/form-data">
                     <label for="pfp_input" class="change-pfp-label">Change pfp</label>
