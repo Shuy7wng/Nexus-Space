@@ -54,7 +54,7 @@ $risultato = $conn->query($query);
                                     <?php if ($ruolo == 1): ?>
                                         <a href="modifica_evento.php?id=<?php echo $evento['ID_Evento']; ?>" class="btn-action">Modifica</a>
                                     <?php else: ?>
-                                        <span class="badge-info">Scopri di più</span>
+                                        <a href="opere.php?id=<?php echo $evento['ID_Evento']; ?>" class="btn-action">Dettagli</a>
                                     <?php endif; ?>
                                 </div>
                             </div>
