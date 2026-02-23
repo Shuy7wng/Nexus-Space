@@ -18,6 +18,9 @@ $stmt->execute();
 $res = $stmt->get_result();
 $user = $res->fetch_assoc();
 
+// Recupera gli eventi
+$eventiRes = $conn->query("SELECT ID_Evento, Nome FROM eventi ORDER BY Nome ASC");
+
 // Gestione invio form
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -27,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $materiale = $_POST['materiale'] ?? '';
     $tipo_tela = $_POST['tipo_tela'] ?? '';
     $anno = $_POST['anno'] ?? '';
+    $id_evento = $_POST['id_evento'] ?? '';
 
     // Se non è un dipinto, tipo_tela diventa null
     if ($tipo !== 'Dipinto') {
@@ -54,8 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Inserimento nel DB
     $stmt = $conn->prepare("INSERT INTO Opere 
-        (Titolo, Descrizione, Tipo, Materiale, Tipo_Tela, Anno, Percorso_File, Stato, NumLike, ID_Utente, ID_ArtistaS) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, 'In attesa', 0, ?, NULL)");
+        (Titolo, Descrizione, Tipo, Materiale, Tipo_Tela, Anno, Percorso_File, Stato, NumLike, ID_Utente, ID_ArtistaS, ID_Evento) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, 'In attesa', 0, ?, NULL, ?)");
 
     $stmt->bind_param(
         "sssssisi",
@@ -66,7 +70,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $tipo_tela,
         $anno,
         $filePercorso,
-        $userID
+        $userID,
+        $id_evento
     );
 
     $stmt->execute();
@@ -132,6 +137,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label id="tipo-tela-label" style="display:none;">
             Tipo Tela
             <input type="text" name="tipo_tela" placeholder="Tipo di tela (solo dipinti)" value="null">
+        </label>
+
+        <label>
+            Evento
+            <select name="id_evento" required>
+                <option value="">Seleziona l'evento in cui richiedere di inserire l'opera</option>
+                <?php while($evento = $eventiRes->fetch_assoc()): ?>
+                    <option value="<?= $evento['ID_Evento']; ?>">
+                        <?= htmlspecialchars($evento['Nome']); ?>
+                    </option>
+                <?php endwhile; ?>
+            </select>
+        </label>
+
+        <label>
+            Sponsor
+            <input type="text" name="sponsor" placeholder="Inserisci l'eventuale sponsor dell'opera, altrimenti lascia vuoto">
         </label>
 
         <!-- File immagine -->

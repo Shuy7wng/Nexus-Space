@@ -36,6 +36,8 @@ $opera = $risultato->fetch_assoc();
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($opera['Titolo']); ?> - Nexus Space</title>
     <link rel="stylesheet" href="/Nexus-Space/assets/css/opera.css">
+    <!-- Google Font elegante -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
     <main class="opera-dettaglio">

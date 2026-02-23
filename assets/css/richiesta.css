@@ -7,6 +7,19 @@
     --bianco: #f8f8f6;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bianco);
+    color: var(--verde-scuro);
+    line-height: 1.6;
+}
+
+
 /* FORM CONTAINER SPECIFICO */
 .opera-form-container {
     width: min(100%, 56rem);
