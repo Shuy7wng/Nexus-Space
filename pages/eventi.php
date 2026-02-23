@@ -49,13 +49,8 @@ $risultato = $conn->query($query);
                                 <h3 class="playfair"><?php echo htmlspecialchars($evento['Nome']); ?></h3>
                                 <p class="event-desc"><?php echo htmlspecialchars($evento['Descrizione']); ?></p>
                                 
-                                <!--Distinzione delle azioni eseguibili in base al ruolo-->
                                 <div class="event-actions">
-                                    <?php if ($ruolo == 1): ?>
-                                        <a href="modifica_evento.php?id=<?php echo $evento['ID_Evento']; ?>" class="btn-action">Modifica</a>
-                                    <?php else: ?>
-                                        <a href="opere.php?id=<?php echo $evento['ID_Evento']; ?>" class="btn-action">Dettagli</a>
-                                    <?php endif; ?>
+                                    <a href="opere.php?id=<?php echo $evento['ID_Evento']; ?>" class="btn-action">Dettagli</a>
                                 </div>
                             </div>
                         </article>
