@@ -15,9 +15,9 @@ if (isset($_GET['id'], $_GET['azione'])) {
         $stmt->bind_param("i", $id);
         $stmt->execute();
 
-    } elseif ($azione === 'rigetta') {
+    } elseif ($azione === 'rifiuta') {
 
-        $stmt = $conn->prepare("UPDATE Opere SET Stato = 'Non accettata' WHERE ID_Opera = ?");
+        $stmt = $conn->prepare("UPDATE Opere SET Stato = 'Non approvata' WHERE ID_Opera = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
     }
@@ -30,8 +30,8 @@ if (isset($_GET['id'], $_GET['azione'])) {
 $query = "
     SELECT o.*, u.Nome AS Nome_Autore, u.Cognome AS Cognome_Autore, e.Nome AS Nome_Evento
     FROM Opere o
-    JOIN utenti u ON o.ID_Utente = u.ID_Utente
-    JOIN eventi e ON o.ID_Evento = e.ID_Evento
+    INNER JOIN utenti u ON o.ID_Utente = u.ID_Utente
+    INNER JOIN eventi e ON o.ID_Evento = e.ID_Evento
     WHERE o.Stato = 'In attesa'
     ORDER BY o.ID_Opera DESC
 ";
@@ -86,10 +86,10 @@ $result = $stmt->get_result();
 
                         <div class="opera-actions">
                             <a href="gestione_opere.php?id=<?= $opera['ID_Opera']; ?>&azione=accetta" 
-                            class="btn-accetta">Accetta</a>
+                            class="btn-outline btn-accetta">Accetta</a>
 
-                            <a href="gestione_opere.php?id=<?= $opera['ID_Opera']; ?>&azione=rigetta" 
-                            class="btn-rigetta">Rigetta</a>
+                            <a href="gestione_opere.php?id=<?= $opera['ID_Opera']; ?>&azione=rifiuta" 
+                            class="btn-outline btn-rifiuta">Rifiuta</a>
                         </div>
                         <br>
                     </div>

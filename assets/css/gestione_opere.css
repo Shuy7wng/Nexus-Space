@@ -1,43 +1,38 @@
-/* CONTENITORE BOTTONI */
 .opera-actions {
-    margin-top: 15px;
+    margin-top: 1rem;
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 1rem;
 }
 
-/* STILE BASE */
-.opera-actions a {
-    padding: 8px 16px;
-    border-radius: 20px;
+/* BASE coerente */
+.btn-outline {
+    padding: 0.75rem 2rem;
     text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 500;
-    transition: all 0.25s ease;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.08rem;
+    border: 1px solid transparent;
+    transition: 0.3s;
     display: inline-block;
 }
 
 /* ACCETTA */
 .btn-accetta {
-    background-color: var(--verde-oliva);
+    background-color: #4f6f52;   /* verde */
     color: var(--bianco);
 }
 
 .btn-accetta:hover {
-    background-color: var(--verde-profondo);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    opacity: 0.85;
 }
 
 /* RIGETTA */
-.btn-rigetta {
-    background-color: #d8cfc0; /* beige caldo desaturato */
-    color: var(--verde-scuro);
-    border: 1px solid rgba(0,0,0,0.08);
+.btn-rifiuta {
+    background-color: #b0413e;   /* rosso */
+    color: var(--bianco);
 }
 
-.btn-rigetta:hover {
-    background-color: #cfc4b2;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+.btn-rifiuta:hover {
+    opacity: 0.85;
 }
