@@ -9,45 +9,115 @@
     --bianco: #f8f8f6;
 }
 
+/* BODY dinamico */
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bianco);
     color: var(--verde-scuro);
+    margin: 0;
+    padding: 0;
+}
+
+/* CONTENITORE GENERALE */
+.form-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    padding: 5vh 5vw;
 }
 
+/* CARD FORM */
 .form-container {
     background-color: var(--bianco);
     border: 1px solid var(--beige);
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    width: 350px;
+    padding: 3% 3%;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.08);
+    width: 90%;
+    max-width: 400px;
     text-align: center;
+    transition: 0.3s ease;
+}
+
+.form-container:hover {
+    box-shadow: 0 0.7rem 2rem rgba(0,0,0,0.12);
 }
 
 .form-container h2 {
     font-family: 'Playfair Display', serif;
-    margin-bottom: 30px;
+    margin-bottom: 3%;
+    font-size: 1.8rem;
 }
 
-.form-container input {
+/* INPUT centrati meglio */
+.form-container input,
+.form-container textarea {
     width: 100%;
-    padding: 12px 15px;
-    margin-bottom: 20px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
     border: 1px solid var(--verde-oliva);
-    border-radius: 5px;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    box-sizing: border-box;
 }
 
+.form-container input:focus,
+.form-container textarea:focus {
+    outline: none;
+    border-color: var(--sabbia);
+    box-shadow: 0 0 0 0.25rem rgba(181,167,114,0.2);
+}
+
+/* SEZIONE RUOLO */
+.role-selection {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+/* CARD ARTISTA */
+.artist-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--beige);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: 0.25s ease;
+    margin-bottom: 0.8rem;
+}
+
+.artist-option:hover {
+    border-color: var(--sabbia);
+    background-color: rgba(181,167,114,0.08);
+}
+
+/* Checkbox moderno */
+.artist-option input[type="checkbox"] {
+    accent-color: var(--sabbia);
+    width: 1.2rem;
+    height: 1.2rem;
+    cursor: pointer;
+}
+
+/* Role description */
+.role-description {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: var(--verde-oliva);
+}
+
+/* BUTTON */
 .form-container button {
     width: 100%;
-    padding: 12px;
+    padding: 1rem;
     background-color: var(--sabbia);
     border: none;
+    border-radius: 0.5rem;
     font-weight: 500;
+    font-size: 1rem;
     cursor: pointer;
     transition: 0.3s ease;
 }
@@ -56,16 +126,26 @@ body {
     background-color: var(--beige);
 }
 
+/* LINK */
 .form-container a {
     color: var(--verde-profondo);
     text-decoration: none;
+    font-size: 0.875rem;
 }
 
 .form-container a:hover {
     text-decoration: underline;
 }
 
+/* ERROR */
 .error {
-    color: red;
-    margin-bottom: 15px;
+    color: #c0392b;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+}
+
+/* TEXTAREA altezza fissa */
+textarea {
+    min-height: 100px;
+    resize: vertical;
 }

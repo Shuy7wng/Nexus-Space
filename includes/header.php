@@ -9,7 +9,7 @@ $ruolo = $_SESSION['role'] ?? null;
 <!-- HEADER + NAV -->
 <header class="header">
     <div class="logo">
-        <img src="/nexus-space/assets/img/logo.png" alt="Nexus Logo">
+        <img src="/nexus-space/assets/img/logo_header.png" alt="Nexus Logo">
     </div>
 
     <nav class="nav">

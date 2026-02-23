@@ -1,9 +1,7 @@
 <footer class="footer-columns">
   <div class="container">
-    <div class="col footer-logo-col">
-      <a href="#" class="logo">
-        <img src="/nexus-space/assets/img/logo.png" alt="Nexus Logo">
-      </a>
+    <div class="footer-logo-col">
+        <img src="/nexus-space/assets/img/logo_footer.png" alt="Nexus Logo">
     </div>
     <div class="col footer-about">
       <h3>Chi Siamo</h3>
