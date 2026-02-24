@@ -1,7 +1,6 @@
 <?php
 session_start();
 require_once __DIR__ . "/../config/database.php";
-include __DIR__ . '/../includes/header.php';
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     die("Opera non valida.");
@@ -35,11 +34,13 @@ $opera = $risultato->fetch_assoc();
 <head>
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($opera['Titolo']); ?> - Nexus Space</title>
+    <link rel="stylesheet" href="/Nexus-Space/assets/css/base.css">
     <link rel="stylesheet" href="/Nexus-Space/assets/css/opera.css">
     <!-- Google Font elegante -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
+    <<?php include __DIR__ . '/../includes/header.php'; ?>
     <main class="opera-dettaglio">
         <div class="container">
             <div class="opera-layout">
@@ -91,9 +92,6 @@ $opera = $risultato->fetch_assoc();
             </div>
         </div>
     </main>
-    <footer class="footer">
-        <p class="playfair">&copy; 2024 Nexus Space - International Art Gallery</p>
-        <p class="inter" style="font-size: 0.8rem; margin-top: 10px; opacity: 0.7;">Tutti i diritti riservati.</p>
-    </footer>
+    <?php include __DIR__ . '/../includes/footer.php'; ?>
 </body>
 </html>
