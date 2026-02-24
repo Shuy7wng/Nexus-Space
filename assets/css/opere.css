@@ -213,6 +213,7 @@ body {
 }
 
 /* --- MODAL FULL SCREEN COMMENTI --- */
+/* MODAL COMMENTI FULL SCREEN */
 #comment-modal {
     position: fixed;
     top: 0;
@@ -232,48 +233,51 @@ body {
     height: 90%;
     display: flex;
     flex-direction: column;
-    background: #ffffff; /* bianco pieno */
+    background: #ffffff;
     border-radius: 10px;
     overflow: hidden;
     position: relative;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-.modal-header {
-    padding: 10px;
-    display: flex;
-    justify-content: flex-end;
-}
-
+/* Pulsante chiudi */
 #close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
     font-size: 2rem;
     color: #333;
     cursor: pointer;
+    z-index: 10;
 }
 
+/* TITOLO COMMENTI */
+.modal-title {
+    text-align: center;
+    padding: 15px 10px;
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--verde-scuro);
+    border-bottom: 1px solid #ccc;
+    flex-shrink: 0; /* non ridimensiona quando scrolli */
+}
 
+/* LISTA COMMENTI */
 .modal-body {
     flex: 1;
     overflow-y: auto;
-    padding: 15px;
+    padding: 10px 15px;
     color: #000;
     background-color: rgba(255,255,255,0.95);
 }
 
-.comment-item {
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-}
-
-.comment-item strong {
-    color: var(--sabbia);
-}
-
+/* FORM IN BASSO */
 #modal-comment-form {
     display: flex;
     padding: 10px;
     background: rgba(255,255,255,0.95);
     border-top: 1px solid rgba(0,0,0,0.1);
+    flex-shrink: 0;
 }
 
 #modal-comment-form input {
@@ -297,7 +301,7 @@ body {
 
 #modal-comment-form button:hover {
     background-color: var(--verde-scuro);
-    color: var(--bianco);
+    color: #fff;
 }
 .modal-title {
     text-align: center;
