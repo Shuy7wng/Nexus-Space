@@ -20,50 +20,6 @@ body {
     color: var(--verde-scuro);
     line-height: 1.6;
 }
-
-/* HEADER */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 30px 60px;
-    border-bottom: 1px solid var(--beige);
-    background-color: var(--bianco);
-}
-
-.logo img {
-    height: 55px;
-}
-
-.nav {
-    display: flex;
-    align-items: center;
-}
-
-.nav a {
-    margin-left: 40px;
-    text-decoration: none;
-    color: var(--verde-profondo);
-    font-weight: 400;
-    letter-spacing: 1px;
-    position: relative;
-}
-
-.nav a::after {
-    content: "";
-    width: 0;
-    height: 1px;
-    background: var(--sabbia);
-    position: absolute;
-    left: 0;
-    bottom: -5px;
-    transition: 0.3s ease;
-}
-
-.nav a:hover::after {
-    width: 100%;
-}
-
 .profile-icon img {
     height: 28px;
     margin-left: 40px;
@@ -221,11 +177,4 @@ body {
 .hero-text p {
     font-size: 1.1rem;
     color: var(--beige);
-}
-/* FOOTER */
-.footer {
-    background-color: var(--verde-profondo);
-    color: var(--beige);
-    padding: 60px 40px;
-    text-align: center;
 }

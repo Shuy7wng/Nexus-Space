@@ -66,7 +66,6 @@ $risultato = $stmt->get_result();
                                 </p>
 
                                 <!-- Sezione Like e Commenti con solo icone -->
-                                <!-- Sezione Like e Commenti con SVG inline -->
                                 <div class="actions">
                                     <!-- Sezione Like e Commenti con numero like a sinistra -->
                                     <div class="actions">

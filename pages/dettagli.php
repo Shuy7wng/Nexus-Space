@@ -40,7 +40,7 @@ $opera = $risultato->fetch_assoc();
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <<?php include __DIR__ . '/../includes/header.php'; ?>
+    <?php include __DIR__ . '/../includes/header.php'; ?>
     <main class="opera-dettaglio">
         <div class="container">
             <div class="opera-layout">

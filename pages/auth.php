@@ -15,7 +15,7 @@ function requireLogin() {
 function requireRole($roles) {
     requireLogin();
     if (!in_array($_SESSION['role'], $roles)) {
-        header("Location: no_access.php");
+        header("Location: login.php");
         exit;
     }
 }
