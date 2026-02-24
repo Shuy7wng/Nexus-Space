@@ -7,11 +7,13 @@
     --bianco: #f8f8f6;
 }
 
+/* RESET BASE */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bianco);
@@ -19,8 +21,7 @@ body {
     line-height: 1.6;
 }
 
-
-/* FORM CONTAINER SPECIFICO */
+/* CONTAINER FORM */
 .opera-form-container {
     width: min(100%, 56rem);
     margin: 3rem auto;
@@ -30,7 +31,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-family: 'Inter', sans-serif;
 }
 
 .opera-form-container h2 {
@@ -52,13 +52,11 @@ body {
     gap: 1.5rem;
 }
 
-/* Titolo e Anno stessa riga */
 .opera-form .full-row {
     grid-column: 1 / -1;
 }
 
 .opera-form label {
-    position: relative;
     display: block;
     font-size: 0.85rem;
     color: var(--verde-oliva);
@@ -75,7 +73,7 @@ body {
     font-size: 0.95rem;
     color: var(--verde-profondo);
     background-color: var(--bianco);
-    transition: 0.3s;
+    transition: border 0.3s;
 }
 
 .opera-form label input:focus,
@@ -85,13 +83,12 @@ body {
     border-color: var(--sabbia);
 }
 
-/* Textarea descrizione */
 .opera-form textarea {
     resize: vertical;
     min-height: 6rem;
 }
 
-/* Bottone invio */
+/* BOTTONE INVIO */
 .opera-form button {
     grid-column: 1 / -1;
     padding: 0.8rem 2rem;
@@ -102,7 +99,8 @@ body {
     font-size: 0.9rem;
     text-transform: uppercase;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s;
+    border-radius: 5px;
 }
 
 .opera-form button:hover {
@@ -110,7 +108,43 @@ body {
     color: var(--verde-scuro);
 }
 
-/* Responsive */
+/* UPLOAD IMAGE */
+.upload-wrapper {
+    display: flex;
+    flex-direction: column; /* Metti il label e il bottone in colonna */
+    align-items: center;    /* Centra orizzontalmente */
+    justify-content: center; /* Centra verticalmente (utile se wrapper ha altezza) */
+    text-align: center;
+    width: 100%;
+}
+
+.upload-wrapper input[type="file"] {
+    display: none; /* Nascondi input reale */
+}
+
+.upload-wrapper button {
+    padding: 12px 25px;
+    background-color: var(--sabbia);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 8px;
+}
+
+.upload-wrapper button:hover {
+    background-color: var(--beige);
+    transform: scale(1.05);
+}
+
+#file-label {
+    font-size: 0.9rem;
+    color: var(--verde-oliva);
+    text-align: center;
+    margin-bottom: 5px;
+}
+/* RESPONSIVE */
 @media (max-width: 768px) {
     .opera-form {
         grid-template-columns: 1fr;

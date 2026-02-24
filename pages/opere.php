@@ -1,7 +1,6 @@
 <?php
 session_start();
 require_once __DIR__ . "/../config/database.php";
-include __DIR__ . '/../includes/header.php';
 
 // Controllo che l'id sia stato passato
 if (!isset($_GET['id']) || empty($_GET['id'])) {
@@ -22,10 +21,12 @@ $risultato = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <title>Opere - Nexus Space</title>
+    <link rel="stylesheet" href="/Nexus-Space/assets/css/base.css">
     <link rel="stylesheet" href="/Nexus-Space/assets/css/opere.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
+<?php include __DIR__ . '/../includes/header.php'; ?>
     <section class="hero-opere">
         <div class="hero-text">
             <h1 class="playfair">Opere</h1>
@@ -43,7 +44,7 @@ $risultato = $stmt->get_result();
                     <div class="opera-card">
                         
                         <div class="opera-img">
-                            <a href="opera.php?id=<?php echo $opera['ID_Opera']; ?>"><img src="/Nexus-Space/<?php echo htmlspecialchars($opera['Percorso_File']); ?>" 
+                            <a href="opera.php?id=<?php echo $opera['ID_Opera']; ?>"><img src="/Nexus-Space/uploads/opere/<?php echo htmlspecialchars($opera['Percorso_File']); ?>" 
                                 alt="<?php echo htmlspecialchars($opera['Titolo']); ?>"></a>
                         </div>
 
@@ -71,11 +72,7 @@ $risultato = $stmt->get_result();
             </div>
         </div>
     </main>
-
-    <footer class="footer">
-        <p class="playfair">&copy; 2024 Nexus Space - International Art Gallery</p>
-        <p class="inter" style="font-size: 0.8rem; margin-top: 10px; opacity: 0.7;">Tutti i diritti riservati.</p>
-    </footer>
+    <?php include __DIR__ . '/../includes/footer.php'; ?>
 
 </body>
 </html>

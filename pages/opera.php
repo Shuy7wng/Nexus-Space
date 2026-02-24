@@ -45,7 +45,6 @@ $opera = $risultato->fetch_assoc();
             <div class="opera-layout">
                 <!-- IMMAGINE -->
                 <div class="opera-img">
-                    <img src="/Nexus-Space/<?php echo htmlspecialchars($opera['Percorso_File']); ?>"
                         alt="<?php echo htmlspecialchars($opera['Titolo']); ?>">
                 </div>
 

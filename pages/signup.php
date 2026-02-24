@@ -19,12 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $password = password_hash($password_raw, PASSWORD_DEFAULT);
 
-        // Ruolo sicuro
-        $ruolo = isset($_POST['id_ruolo']) ? intval($_POST['id_ruolo']) : 3;
-
-        if ($ruolo === 1) {
-            $ruolo = 3; // Impedisce creazione admin
-        }
+        // Ruolo sicuro: checkbox Artista = 2, altrimenti Visitatore = 3
+        $ruolo = isset($_POST['artista']) ? 2 : 3;
 
         // Controllo email o nickname esistenti
         $stmt_check = $conn->prepare("SELECT ID_Utente FROM Utenti WHERE Email = ? OR Nickname = ?");
@@ -33,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result_check = $stmt_check->get_result();
 
         if ($result_check->num_rows > 0) {
-
             $errore = "Email o nickname già registrati.";
         } else {
 

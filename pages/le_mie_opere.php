@@ -23,6 +23,7 @@ $risultato = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <title>Opere - Nexus Space</title>
+    <link rel="stylesheet" href="/Nexus-Space/assets/css/base.css">
     <link rel="stylesheet" href="/Nexus-Space/assets/css/opere.css">
     <link rel="stylesheet" href="/Nexus-Space/assets/css/le_mie_opere.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -46,7 +47,7 @@ $risultato = $stmt->get_result();
                     <div class="opera-card">
                         
                         <div class="opera-img">
-                            <a href="opera.php?id=<?php echo $opera['ID_Opera']; ?>"><img src="/Nexus-Space/<?php echo htmlspecialchars($opera['Percorso_File']); ?>" 
+                            <a href="opera.php?id=<?php echo $opera['ID_Opera']; ?>"><img src="/Nexus-Space/uploads/opere/<?php echo htmlspecialchars($opera['Percorso_File']); ?>" 
                                 alt="<?php echo htmlspecialchars($opera['Titolo']); ?>"></a>
                         </div>
 
