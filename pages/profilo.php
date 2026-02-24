@@ -17,27 +17,37 @@ $stmt->execute();
 $user = $stmt->get_result()->fetch_assoc();
 
 // Recupero Storico (Commenti e Like)
-$stmt_com = $conn->prepare("SELECT c.Commento, o.Titolo FROM commenti c INNER JOIN opere o ON c.ID_Opera = o.ID_Opera WHERE c.ID_Utente = ?");
+$stmt_com = $conn->prepare("
+SELECT c.Commento, o.Titolo, o.ID_Opera
+FROM commenti c 
+INNER JOIN opere o ON c.ID_Opera = o.ID_Opera 
+WHERE c.ID_Utente = ?
+");
 $stmt_com->bind_param("i", $user_id);
 $stmt_com->execute();
 $commenti = $stmt_com->get_result();
 
-$stmt_like = $conn->prepare("SELECT o.Titolo FROM like_opere l INNER JOIN opere o ON l.ID_Opera = o.ID_Opera WHERE l.ID_Utente = ?");
+$stmt_like = $conn->prepare("
+SELECT o.Titolo, o.ID_Opera
+FROM likes l 
+INNER JOIN opere o ON l.ID_Opera = o.ID_Opera 
+WHERE l.ID_Utente = ?
+");
 $stmt_like->bind_param("i", $user_id);
 $stmt_like->execute();
 $likes = $stmt_like->get_result();
 
 // Upload della foto profilo
-if(isset($_FILES['new_pfp']) && $_FILES['new_pfp']['error'] == 0){
+if (isset($_FILES['new_pfp']) && $_FILES['new_pfp']['error'] == 0) {
 
     $estensione = strtolower(pathinfo($_FILES['new_pfp']['name'], PATHINFO_EXTENSION));
-    
+
     // Controllo estensione consentita
     $estensioniConsentite = ['jpg', 'jpeg', 'png', 'webp'];
     if (!in_array($estensione, $estensioniConsentite)) {
         die("Formato file non valido. Consentiti: jpg, jpeg, png, webp.");
     }
-    
+
     // Creazione di un nome file univoco
     $nome_file = "user_" . $user_id . "." . $estensione;
 
@@ -68,19 +78,23 @@ if(isset($_FILES['new_pfp']) && $_FILES['new_pfp']['error'] == 0){
 
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/Nexus-Space/assets/css/profilo.css">
     <title>Profilo - Nexus Space</title>
 </head>
+
 <body>
     <div class="profile-container">
         <h2 class="profile-title">Il Mio Account</h2>
-        
+
         <div class="profile-header">
             <div class="pfp-section">
                 <div class="pfp-wrapper">
-                    <img src="/Nexus-Space/<?php echo !empty($user['Percorso_File']) ? $user['Percorso_File'] : 'assets/img/login-icon.png'; ?>">
+                    <img class="commento-pfp"
+                        src="/Nexus-Space/<?php echo !empty($user['Percorso_File']) ? htmlspecialchars($user['Percorso_File']) : '/assets/img/login-icon.png'; ?>"
+                        alt="pfp">
                 </div>
                 <form action="profilo.php" method="POST" enctype="multipart/form-data">
                     <label for="pfp_input" class="change-pfp-label">Change pfp</label>
@@ -112,18 +126,20 @@ if(isset($_FILES['new_pfp']) && $_FILES['new_pfp']['error'] == 0){
             <div class="history-section">
                 <h3>Comment History</h3>
                 <div class="history-list">
-                    <?php while($c = $commenti->fetch_assoc()): ?>
-                        <div class="history-item">
-                            <strong><?php echo htmlspecialchars($c['Titolo']); ?>:</strong> "<?php echo htmlspecialchars($c['Commento']); ?>"
-                        </div>
+                    <?php while ($c = $commenti->fetch_assoc()): ?>
+                        <a href="/Nexus-Space/pages/dettagli.php?id=<?php echo $l['ID_Opera']; ?>" class="history-item link-item">
+                            Hai messo like a <strong><?php echo htmlspecialchars($l['Titolo']); ?></strong>
+                        </a>
                     <?php endwhile; ?>
                 </div>
             </div>
             <div class="history-section">
                 <h3>Like History</h3>
                 <div class="history-list">
-                    <?php while($l = $likes->fetch_assoc()): ?>
-                        <div class="history-item">Hai messo like a <strong><?php echo htmlspecialchars($l['Titolo']); ?></strong></div>
+                    <?php while ($l = $likes->fetch_assoc()): ?>
+                        <a href="/Nexus-Space/pages/dettagli.php?id=<?php echo $l['ID_Opera']; ?>" class="history-item link-item">
+                            Hai messo like a <strong><?php echo htmlspecialchars($l['Titolo']); ?></strong>
+                        </a>
                     <?php endwhile; ?>
                 </div>
             </div>
@@ -135,4 +151,5 @@ if(isset($_FILES['new_pfp']) && $_FILES['new_pfp']['error'] == 0){
         </div>
     </div>
 </body>
+
 </html>
