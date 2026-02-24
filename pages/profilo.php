@@ -123,24 +123,36 @@ if (isset($_FILES['new_pfp']) && $_FILES['new_pfp']['error'] == 0) {
         </div>
 
         <div class="history-grid">
+            <!-- COMMENT HISTORY -->
             <div class="history-section">
                 <h3>Comment History</h3>
                 <div class="history-list">
-                    <?php while ($c = $commenti->fetch_assoc()): ?>
-                        <a href="/Nexus-Space/pages/dettagli.php?id=<?php echo $l['ID_Opera']; ?>" class="history-item link-item">
-                            Hai messo like a <strong><?php echo htmlspecialchars($l['Titolo']); ?></strong>
-                        </a>
-                    <?php endwhile; ?>
+                    <?php if ($commenti->num_rows > 0): ?>
+                        <?php while ($c = $commenti->fetch_assoc()): ?>
+                            <a href="/Nexus-Space/pages/dettagli.php?id=<?php echo $c['ID_Opera']; ?>" class="history-item link-item">
+                                Commento a <strong><?php echo htmlspecialchars($c['Titolo']); ?></strong>:
+                                "<?php echo htmlspecialchars($c['Commento']); ?>"
+                            </a>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <p class="no-history">Nessun commento ancora.</p>
+                    <?php endif; ?>
                 </div>
             </div>
+
+            <!-- LIKE HISTORY -->
             <div class="history-section">
                 <h3>Like History</h3>
                 <div class="history-list">
-                    <?php while ($l = $likes->fetch_assoc()): ?>
-                        <a href="/Nexus-Space/pages/dettagli.php?id=<?php echo $l['ID_Opera']; ?>" class="history-item link-item">
-                            Hai messo like a <strong><?php echo htmlspecialchars($l['Titolo']); ?></strong>
-                        </a>
-                    <?php endwhile; ?>
+                    <?php if ($likes->num_rows > 0): ?>
+                        <?php while ($l = $likes->fetch_assoc()): ?>
+                            <a href="/Nexus-Space/pages/dettagli.php?id=<?php echo $l['ID_Opera']; ?>" class="history-item link-item">
+                                Like a <strong><?php echo htmlspecialchars($l['Titolo']); ?></strong>
+                            </a>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <p class="no-history">Nessun like ancora.</p>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

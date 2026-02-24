@@ -138,17 +138,19 @@ body {
     margin-bottom: 1rem;
     color: var(--verde-scuro);
 }
-
 .history-list {
+    display: flex;
+    flex-direction: column; /* forza colonna */
+    gap: 0.5rem; /* spazio verticale tra commenti */
     max-height: 35vh;
     overflow-y: auto;
     padding-right: 0.5rem;
 }
 
 .history-item {
+    display: block; /* assicura blocco */
     background-color: var(--bianco);
     padding: 0.8rem 1rem;
-    margin-bottom: 0.5rem;
     border: 1px solid var(--beige);
     border-radius: 0.4rem;
     font-size: 0.95rem;
@@ -160,7 +162,6 @@ body {
 }
 
 .link-item {
-    display: block;
     text-decoration: none;
     color: inherit;
     transition: 0.25s ease;
