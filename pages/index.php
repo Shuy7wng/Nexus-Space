@@ -19,7 +19,6 @@
     <div class="hero-text">
         <h1>Connessioni Visive</h1>
         <p>Un dialogo tra forma, materia e spazio.</p>
-        <button class="btn">Scopri la collezione</button>
     </div>
 </section>
 
