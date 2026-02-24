@@ -3,10 +3,11 @@ require 'auth.php';
 requireRole([1]); // solo admin
 require_once "../config/database.php";
 
+// Il cast serve ad evitare SQL Injection
 $id = (int)$_GET['id'];
 $ruolo = (int)$_GET['ruolo'];
 
-// Previeni retrocessione di te stesso
+// Prevengo la retrocessione di me stesso
 if ($id == $_SESSION['user_id']) {
     die("Non puoi cambiare il tuo ruolo.");
 }

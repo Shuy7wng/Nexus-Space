@@ -1,5 +1,5 @@
 <?php
-session_start();
+require 'auth.php';
 require_once __DIR__ . "/../config/database.php";
 
 // Controllo che l'id sia stato passato

@@ -1,14 +1,7 @@
 <?php
 require_once __DIR__ . "/../config/database.php";
-
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-if (!isset($_SESSION['user_id'])) {
-    header("Location: /Nexus-Space/pages/login.php");
-    exit();
-}
+require 'auth.php';
+requireLogin();
 
 $user_id = $_SESSION['user_id'];
 
@@ -37,20 +30,39 @@ $likes = $stmt_like->get_result();
 // Upload della foto profilo
 if(isset($_FILES['new_pfp']) && $_FILES['new_pfp']['error'] == 0){
 
-    $estensione = pathinfo($_FILES['new_pfp']['name'], PATHINFO_EXTENSION);
+    $estensione = strtolower(pathinfo($_FILES['new_pfp']['name'], PATHINFO_EXTENSION));
+    
+    // Controllo estensione consentita
+    $estensioniConsentite = ['jpg', 'jpeg', 'png', 'webp'];
+    if (!in_array($estensione, $estensioniConsentite)) {
+        die("Formato file non valido. Consentiti: jpg, jpeg, png, webp.");
+    }
+    
+    // Creazione di un nome file univoco
     $nome_file = "user_" . $user_id . "." . $estensione;
 
-    $percorso_salvataggio = "../uploads/profili/" . $nome_file;
-    move_uploaded_file($_FILES['new_pfp']['tmp_name'], $percorso_salvataggio);
+    $cartella = "../uploads/profili/";
 
-    $percorso_db = "uploads/profili/" . $nome_file;
+    // Creo la cartella se non esiste
+    if (!is_dir($cartella)) {
+        mkdir($cartella, 0777, true);
+    }
 
-    $update = $conn->prepare("UPDATE utenti SET Percorso_File = ? WHERE ID_Utente = ?");
-    $update->bind_param("si", $percorso_db, $user_id);
-    $update->execute();
+    $percorso_salvataggio = $cartella . $nome_file;
 
-    header("Location: profilo.php");
-    exit();
+    // Se lo spostamento del file è andato a buon fine, aggiorno il percorso nel DB
+    if (move_uploaded_file($_FILES['new_pfp']['tmp_name'], $percorso_salvataggio)) {
+        $percorso_db = "uploads/profili/" . $nome_file;
+
+        $update = $conn->prepare("UPDATE utenti SET Percorso_File = ? WHERE ID_Utente = ?");
+        $update->bind_param("si", $percorso_db, $user_id);
+        $update->execute();
+
+        header("Location: profilo.php");
+        exit();
+    } else {
+        die("Errore nel caricamento del file.");
+    }
 }
 ?>
 
@@ -77,7 +89,7 @@ if(isset($_FILES['new_pfp']) && $_FILES['new_pfp']['error'] == 0){
             </div>
             <div class="nickname-box">
                 @<?php echo htmlspecialchars($user['Nickname']); ?>
-                <span class="role-badge"><?php echo $user['Nome_ruolo']; ?></span>
+                <span class="role-badge"><?php echo htmlspecialchars($user['Nome_ruolo']); ?></span>
             </div>
         </div>
 
@@ -102,7 +114,7 @@ if(isset($_FILES['new_pfp']) && $_FILES['new_pfp']['error'] == 0){
                 <div class="history-list">
                     <?php while($c = $commenti->fetch_assoc()): ?>
                         <div class="history-item">
-                            <strong><?php echo $c['Titolo']; ?>:</strong> "<?php echo $c['Commento']; ?>"
+                            <strong><?php echo htmlspecialchars($c['Titolo']); ?>:</strong> "<?php echo htmlspecialchars($c['Commento']); ?>"
                         </div>
                     <?php endwhile; ?>
                 </div>
@@ -111,7 +123,7 @@ if(isset($_FILES['new_pfp']) && $_FILES['new_pfp']['error'] == 0){
                 <h3>Like History</h3>
                 <div class="history-list">
                     <?php while($l = $likes->fetch_assoc()): ?>
-                        <div class="history-item">Hai messo like a <strong><?php echo $l['Titolo']; ?></strong></div>
+                        <div class="history-item">Hai messo like a <strong><?php echo htmlspecialchars($l['Titolo']); ?></strong></div>
                     <?php endwhile; ?>
                 </div>
             </div>

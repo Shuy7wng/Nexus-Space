@@ -1,6 +1,5 @@
 <?php
-session_start();
-
+require_once 'auth.php';
 require_once __DIR__ . "/../config/database.php";
 
 // Se l'utente è loggato recupero il ruolo, altrimenti lo setto a null
@@ -34,13 +33,6 @@ $risultato = $conn->query($query);
 
     <main class="collection-eventi">
         <div class="container">
-            
-            <?php if ($ruolo == 1): ?>
-                <div class="admin-actions">
-                    <a href="crea_evento.php" class="btn btn-admin">Nuovo Evento</a>
-                </div>
-            <?php endif; ?>
-
             <div class="gallery-eventi">
                 <?php if ($risultato->num_rows > 0): ?>
                     <?php while($evento = $risultato->fetch_assoc()): ?>
@@ -48,7 +40,6 @@ $risultato = $conn->query($query);
                             <div class="event-img-placeholder">
                                 <span class="playfair">Nexus</span>
                             </div>
-                            
                             <div class="event-info">
                                 <h3 class="playfair"><?php echo htmlspecialchars($evento['Nome']); ?></h3>
                                 <p class="event-desc"><?php echo htmlspecialchars($evento['Descrizione']); ?></p>

@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once __DIR__ . "/../config/database.php";
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
@@ -15,7 +14,7 @@ $stmt = $conn->prepare("
            u.Email, s.Nome AS Sponsor
     FROM Utenti u
     INNER JOIN opere o ON u.ID_Utente = o.ID_Utente
-    INNER JOIN Sponsor s ON o.ID_Sponsor = s.ID_Sponsor
+    LEFT JOIN Sponsor s ON o.ID_Sponsor = s.ID_Sponsor
     WHERE o.ID_Opera = ?
 ");
 $stmt->bind_param("i", $id_opera);

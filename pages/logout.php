@@ -1,8 +1,8 @@
 <?php
-session_start();
+require_once 'init.php';
 
 // Svuoto l'array di sessione
-$_SESSION = array();
+$_SESSION = [];
 
 // Elimino il coockie della sessione (se esiste)
 if (ini_get("session.use_cookies")) {
