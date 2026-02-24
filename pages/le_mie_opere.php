@@ -1,15 +1,10 @@
 <?php
 require 'auth.php';
+requireLogin();
 requireRole([2]); // Solo Artista può accedere
-
 require_once __DIR__ . '/../config/database.php';
 
-// Controlla che l'utente sia loggato
-$userID = $_SESSION['user_id'] ?? null;
-if (!$userID) {
-    header("Location: login.php");
-    exit;
-}
+$userID = $_SESSION['user_id'];
 
 // Recupera i dati dell'utente loggato
 $stmt = $conn->prepare("SELECT * FROM Opere WHERE ID_Utente = ? ORDER BY ID_Opera DESC");
@@ -65,7 +60,8 @@ $risultato = $stmt->get_result();
                                     <?php echo htmlspecialchars($opera['Descrizione']); ?>
                                 </p>
 
-                                <p class="stato <?= strtolower(str_replace(' ', '-', $opera['Stato'])) ?>">
+                                <!--Faccio diventare lo Stato una classe CSS (al posto degli spazi metto dei trattini-->
+                                <p class="stato <?= strtolower(str_replace(' ', '-', $opera['Stato'])) ?>"> 
                                     <?= $opera['Stato']; ?>
                                 </p>
                             </div>

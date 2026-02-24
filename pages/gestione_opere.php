@@ -37,10 +37,6 @@ $query = "
 ";
 
 $risultato = $conn->query($query);
-
-$stmt = $conn->prepare($query);
-$stmt->execute();
-$result = $stmt->get_result();
 ?>
 <!DOCTYPE html>
 <html lang="it">

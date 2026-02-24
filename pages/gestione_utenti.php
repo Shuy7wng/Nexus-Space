@@ -54,7 +54,7 @@ $result = $stmt->get_result();
                     <td><?php echo $utente['ID_Utente']; ?></td>
                     <td><?php echo htmlspecialchars($utente['Nickname']); ?></td>
                     <td><?php echo htmlspecialchars($utente['Email']); ?></td>
-                    <td><?php echo $utente['Nome_Ruolo']; ?></td>
+                    <td><?php echo htmlspecialchars($utente['Nome_Ruolo']); ?></td>
                     <td> 
                         <!--Se un utente è Visitatore, metto il tasto 'Promuovi', se invece è Admin metto il tasto 'Retrocedi' -->
                         <?php if ($utente['ID_Ruolo'] == 3): // Visitatore ?>

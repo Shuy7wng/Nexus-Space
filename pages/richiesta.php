@@ -1,19 +1,11 @@
 <?php
 require 'auth.php';
+requireLogin();
 requireRole([2]); // Solo Artista
-
 require_once __DIR__ . '/../config/database.php';
 
-if (session_status() === PHP_SESSION_NONE) session_start();
-
-// Controlla login
-$userID = $_SESSION['user_id'] ?? null;
-if (!$userID) {
-    header("Location: login.php");
-    exit;
-}
-
 // Prende dati utente
+$userID = $_SESSION['user_id'];
 $stmt = $conn->prepare("SELECT * FROM utenti WHERE ID_Utente = ?");
 $stmt->bind_param("i", $userID);
 $stmt->execute();
@@ -48,6 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nome_file = "opera_" . time() . "_" . $userID . "." . $estensione;
 
             $cartella = "../uploads/opere/";
+
+            // Controllo se la cartella esiste, altrimenti la creo (opzionale, ma evita errori)
             if (!is_dir($cartella)) {
                 mkdir($cartella, 0777, true);
             }
@@ -113,10 +107,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <option value="<?= $evento['ID_Evento'] ?>"><?= htmlspecialchars($evento['Nome']) ?></option>
                     <?php endwhile; ?>
                 </select>
-            </label>
-
-            <label>Sponsor
-                <input type="text" name="sponsor" placeholder="Sponsor (opzionale)">
             </label>
 
             <label>Tipo

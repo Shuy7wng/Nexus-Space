@@ -1,7 +1,6 @@
 <?php
-require_once __DIR__ . '/auth.php';
-requireLogin(); 
-require_once __DIR__ . '/../config/database.php';
+session_start();
+require_once __DIR__ . "/../config/database.php";
 
 // Validare l'ID dell'opera dal parametro GET
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {

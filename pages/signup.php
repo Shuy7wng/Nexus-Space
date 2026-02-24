@@ -1,5 +1,5 @@
 <?php
-session_start();
+require 'auth.php';
 require_once __DIR__ . '/../config/database.php';
 
 $errore = "";
@@ -13,13 +13,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nickname = trim($_POST['nickname'] ?? '');
     $password_raw = $_POST['password'] ?? '';
 
+    // Controllo che i campi non siano vuoti
     if (empty($nome) || empty($cognome) || empty($email) || empty($data_nascita) || empty($nickname) || empty($password_raw)) {
         $errore = "Compila tutti i campi.";
     } else {
 
         $password = password_hash($password_raw, PASSWORD_DEFAULT);
 
-        // Ruolo sicuro: checkbox Artista = 2, altrimenti Visitatore = 3
+        // Se la checkbox è selezionata, l'utente è un Artista (2), altrimenti è un Visitatore (3)
         $ruolo = isset($_POST['artista']) ? 2 : 3;
 
         // Controllo email o nickname esistenti
@@ -28,10 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt_check->execute();
         $result_check = $stmt_check->get_result();
 
+        // Controllo se l'email o il nickname sono già nel database
         if ($result_check->num_rows > 0) {
             $errore = "Email o nickname già registrati.";
         } else {
 
+            // Se non lo sono, inserisco il nuovo utente nel database
             $stmt = $conn->prepare("
                 INSERT INTO Utenti 
                 (Nome, Cognome, Email, Data_nascita, Password, Nickname, ID_Ruolo) 
@@ -40,13 +43,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $stmt->bind_param("ssssssi", $nome, $cognome, $email, $data_nascita, $password, $nickname, $ruolo);
 
+            // Se la query è andata a buon fine
             if ($stmt->execute()) {
 
+                // Inserisco i valori nella sessione e reindirizzo alla homepage
                 $_SESSION['user_id'] = $stmt->insert_id;
                 $_SESSION['nickname'] = $nickname;
                 $_SESSION['role'] = $ruolo;
 
-                header("Location: /Nexus-Space/pages/index.php");
+                header("Location: index.php");
                 exit();
             } else {
                 $errore = "Errore durante la registrazione.";
@@ -114,6 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script>
+        // Se la checkbox è selezionata, cambio la descrizione del ruolo
         function showDescription(isChecked) {
             const descBox = document.getElementById('role-description');
 
