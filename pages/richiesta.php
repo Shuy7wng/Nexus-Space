@@ -33,21 +33,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_evento = $_POST['id_evento'] ?? '';
 
     if ($tipo !== 'Dipinto') $tipo_tela = null;
+    // Upload file
+    $filePercorso = null;
 
-    // Upload immagine
-    $filePercorso = "uploads/opere/default_opera.png"; // default
     if (isset($_FILES['percorso_file']) && $_FILES['percorso_file']['error'] === 0) {
-        $estensione = pathinfo($_FILES['percorso_file']['name'], PATHINFO_EXTENSION);
-        $nome_file = "opera_{$userID}_" . time() . ".{$estensione}";
 
-        // Percorso reale sul server
-        $uploadDir = __DIR__ . "/../../uploads/opere/";
+        $estensione = strtolower(pathinfo($_FILES['percorso_file']['name'], PATHINFO_EXTENSION));
 
-        $target = $uploadDir . $nome_file;
+        // (opzionale ma consigliato) controllo estensione
+        $estensioniConsentite = ['jpg', 'jpeg', 'png', 'webp'];
+        if (in_array($estensione, $estensioniConsentite)) {
 
-        if (move_uploaded_file($_FILES['percorso_file']['tmp_name'], $target)) {
-            // Percorso relativo da salvare nel DB
-            $filePercorso = "uploads/opere/{$nome_file}";
+            // Nome univoco
+            $nome_file = "opera_" . time() . "_" . $userID . "." . $estensione;
+
+            $cartella = "../uploads/opere/";
+            if (!is_dir($cartella)) {
+                mkdir($cartella, 0777, true);
+            }
+
+            $percorso_salvataggio = $cartella . $nome_file;
+
+            if (move_uploaded_file($_FILES['percorso_file']['tmp_name'], $percorso_salvataggio)) {
+                $filePercorso = "uploads/opere/" . $nome_file;
+            }
         }
     }
 
