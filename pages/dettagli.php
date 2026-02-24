@@ -85,8 +85,7 @@ $opera = $risultato->fetch_assoc();
                     </div><br>
 
                     <div class="like-section">
-                        <button class="btn-like">♡ Mi piace</button>
-                        <span class="like-count"><?php echo htmlspecialchars($opera['NumLike']); ?></span>
+                        <button class="btn-like">♡ Mi piace <?php echo htmlspecialchars($opera['NumLike']); ?></button>
                     </div>
                 </div>
             </div>
