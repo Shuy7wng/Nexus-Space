@@ -1,9 +1,12 @@
 <?php
-session_start();
-require_once __DIR__ . "/../config/database.php";
+require_once __DIR__ . '/auth.php';
+requireLogin(); 
+require_once __DIR__ . '/../config/database.php';
 
+// Validare l'ID dell'opera dal parametro GET
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    die("Opera non valida.");
+    http_response_code(400);
+    exit("ID opera non valido");
 }
 
 $id_opera = intval($_GET['id']);
@@ -15,7 +18,7 @@ $stmt = $conn->prepare("
            u.Email, s.Nome AS Sponsor
     FROM Utenti u
     INNER JOIN opere o ON u.ID_Utente = o.ID_Utente
-    INNER JOIN Sponsor s ON o.ID_Sponsor = s.ID_Sponsor
+    LEFT JOIN Sponsor s ON o.ID_Sponsor = s.ID_Sponsor
     WHERE o.ID_Opera = ?
 ");
 $stmt->bind_param("i", $id_opera);
@@ -31,6 +34,7 @@ $opera = $risultato->fetch_assoc();
 
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($opera['Titolo']); ?> - Nexus Space</title>
@@ -39,6 +43,7 @@ $opera = $risultato->fetch_assoc();
     <!-- Google Font elegante -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <?php include __DIR__ . '/../includes/header.php'; ?>
     <main class="opera-dettaglio">
@@ -51,7 +56,7 @@ $opera = $risultato->fetch_assoc();
                 </div>
 
                 <!-- INFO -->
-                <div class="opera-info">
+                <div class="opera-info" style="border-left: 1px solid var(--beige); padding-left: 3rem;">
 
                     <h1 class="playfair">
                         <?php echo htmlspecialchars($opera['Titolo']); ?>
@@ -85,12 +90,84 @@ $opera = $risultato->fetch_assoc();
                     </div><br>
 
                     <div class="like-section">
-                        <button class="btn-like">♡ Mi piace <?php echo htmlspecialchars($opera['NumLike']); ?></button>
+                        <?php
+                        if (!isset($_SESSION['user_id'])) {
+                            echo '<a href="/Nexus-Space/pages/login.php" class="btn-like">Accedi per mettere like! </a>';
+                        } else {
+                            $id_utente = $_SESSION['user_id'];
+                            $stmt_check = $conn->prepare("SELECT COUNT(*) as liked FROM likes WHERE ID_Utente = ? AND ID_Opera = ?");
+                            $stmt_check->bind_param("ii", $id_utente, $id_opera);
+                            $stmt_check->execute();
+                            $check_result = $stmt_check->get_result()->fetch_assoc();
+
+                            $already_liked = $check_result['liked'] > 0;
+
+                            $stmt_count = $conn->prepare("SELECT COUNT(*) as total_likes FROM likes WHERE ID_Opera = ?");
+                            $stmt_count->bind_param("i", $id_opera);
+                            $stmt_count->execute();
+                            $count_result = $stmt_count->get_result()->fetch_assoc();
+                            $num_likes = $count_result['total_likes'];
+
+                            $disabled = $already_liked ? "disabled" : "";
+                            $class = $already_liked ? "liked" : "";
+                        ?>
+                            <button class="btn-like <?php echo $class; ?>" <?php echo $disabled; ?>
+                                onclick="addLike(<?php echo $id_opera; ?>, this)">
+                                ♡ Mi piace <?php echo $num_likes; ?>
+                            </button>
+                        <?php
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
         </div>
     </main>
     <?php include __DIR__ . '/../includes/footer.php'; ?>
+    <script>
+        function addLike(idOpera, button) {
+
+            fetch('/Nexus-Space/actions/add_like.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'id_opera=' + idOpera
+                })
+                .then(response => response.text())
+                .then(data => {
+
+                    if (data === "not_logged") {
+                        window.location.href = '/Nexus-Space/pages/login.php';
+                        return;
+                    }
+
+                    let numero = button.innerText.match(/\d+/);
+
+                    if (data === "added") {
+                        // Aggiunge il like
+                        if (numero) {
+                            let nuovoNumero = parseInt(numero[0]) + 1;
+                            button.innerText = "♥ Mi piace " + nuovoNumero;
+                            button.disabled = true;
+                            button.classList.add("liked");
+                        }
+                    } else if (data === "removed") {
+                        // Rimuove il like
+                        if (numero) {
+                            let nuovoNumero = parseInt(numero[0]) - 1;
+                            button.innerText = "♡ Mi piace " + nuovoNumero;
+                            button.disabled = false;
+                            button.classList.remove("liked");
+                        }
+                    }
+
+                })
+                .catch(error => {
+                    console.error("Errore:", error);
+                });
+        }
+    </script>
 </body>
+
 </html>

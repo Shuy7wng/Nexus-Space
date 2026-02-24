@@ -154,7 +154,7 @@ a.btn-action:hover {
     padding: 12px 15px;
     border-radius: 8px;
     border: 2px solid var(--verde-oliva);
-    background-color: var(--verde-profondo);
+    background-color: var(--bianco);
     color: var(--bianco);
     font-size: 0.95rem;
     font-family: 'Inter', sans-serif;
