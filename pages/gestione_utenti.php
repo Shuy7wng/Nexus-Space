@@ -31,42 +31,45 @@ $result = $stmt->get_result();
 </head>
 <body>
     <?php include __DIR__ . '/../includes/header.php'; ?>
-    <div class="search-container">
-        <form method="GET">
-            <input type="text" name="search" placeholder="Cerca per ID o Nickname" value="<?php echo htmlspecialchars($search); ?>">
-            <button type="submit" class="btn-action">Cerca</button>
-        </form>
-    </div>
+    <div class="page-wrapper">
+        <h1 class="page-title">Gestione Utenti</h1>
+        <div class="search-container">
+            <form method="GET">
+                <input type="text" name="search" placeholder="Cerca per ID o Nickname" value="<?php echo htmlspecialchars($search); ?>">
+                <button type="submit" class="btn-action">Cerca</button>
+            </form>
+        </div>
 
-    <table border="1" cellpadding="8">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nickname</th>
-                <th>Email</th>
-                <th>Ruolo</th>
-                <th>Operazioni</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php while($utente = $result->fetch_assoc()): ?>
+        <table class="users-table">
+            <thead>
                 <tr>
-                    <td><?php echo $utente['ID_Utente']; ?></td>
-                    <td><?php echo htmlspecialchars($utente['Nickname']); ?></td>
-                    <td><?php echo htmlspecialchars($utente['Email']); ?></td>
-                    <td><?php echo htmlspecialchars($utente['Nome_Ruolo']); ?></td>
-                    <td> 
-                        <!--Se un utente è Visitatore, metto il tasto 'Promuovi', se invece è Admin metto il tasto 'Retrocedi' -->
-                        <?php if ($utente['ID_Ruolo'] == 3): // Visitatore ?>
-                            <a href="cambia_ruolo.php?id=<?php echo $utente['ID_Utente']; ?>&ruolo=1" class="btn-action">Promuovi</a>
-                        <?php elseif ($utente['ID_Ruolo'] == 1): // Admin ?>
-                            <a href="cambia_ruolo.php?id=<?php echo $utente['ID_Utente']; ?>&ruolo=3" class="btn-action">Retrocedi</a>
-                        <?php endif; ?>
-                    </td>
+                    <th>ID</th>
+                    <th>Nickname</th>
+                    <th>Email</th>
+                    <th>Ruolo</th>
+                    <th>Operazioni</th>
                 </tr>
-            <?php endwhile; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php while($utente = $result->fetch_assoc()): ?>
+                    <tr>
+                        <td><?php echo $utente['ID_Utente']; ?></td>
+                        <td><?php echo htmlspecialchars($utente['Nickname']); ?></td>
+                        <td><?php echo htmlspecialchars($utente['Email']); ?></td>
+                        <td><?php echo htmlspecialchars($utente['Nome_Ruolo']); ?></td>
+                        <td> 
+                            <!--Se un utente è Visitatore, metto il tasto 'Promuovi', se invece è Admin metto il tasto 'Retrocedi' -->
+                            <?php if ($utente['ID_Ruolo'] == 3): // Visitatore ?>
+                                <a href="cambia_ruolo.php?id=<?php echo $utente['ID_Utente']; ?>&ruolo=1" class="btn-action">Promuovi</a>
+                            <?php elseif ($utente['ID_Ruolo'] == 1): // Admin ?>
+                                <a href="cambia_ruolo.php?id=<?php echo $utente['ID_Utente']; ?>&ruolo=3" class="btn-action">Retrocedi</a>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    </div>
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 </body>
 </html>

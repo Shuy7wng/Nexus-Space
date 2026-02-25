@@ -160,7 +160,7 @@ $stmt_commenti->close();
 
                         <div class="commento-header">
                             <img class="commento-pfp"
-                                src="/Nexus-Space/<?php echo htmlspecialchars($commento['Percorso_File'] ?? 'assets/img/default.png'); ?>"
+                                src="/Nexus-Space/<?php echo htmlspecialchars($commento['Percorso_File'] ?? 'assets/img/login-icon.png'); ?>"
                                 alt="pfp">
 
                             <span class="commento-nickname">

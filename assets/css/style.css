@@ -63,44 +63,106 @@ body {
     margin-bottom: 4rem;
 }
 
-/* Gallery moderna */
+/* Galleria Opere */
+/* Galleria Opere */
 .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-    gap: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    gap: 2.5rem;
+    justify-content: center;  /* centra tutta la griglia */
+    margin: 2rem auto 4rem auto; /* margine sopra e sotto */
+    width: 100%; /* occupa tutta la larghezza disponibile */
+    max-width: 1200px; /* massima larghezza per non espandersi troppo */
+    padding: 0 1rem; /* padding laterale per dispositivi piccoli */
 }
 
-/* Card */
+/* Titolo della galleria */
+.gallery > h2 {
+    grid-column: 1 / -1; /* occupa tutta la griglia */
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-align: center;
+    color: var(--verde-scuro);
+    margin-bottom: 2.5rem;
+}
+
 .art-card {
+    background-color: var(--bianco);
+    border-radius: 12px;
+    overflow: hidden;
     width: 100%;
     max-width: 20rem;
-    margin: 0 auto;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
 .art-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.12);
 }
 
 .art-img {
-    aspect-ratio: 4 / 5;
     width: 100%;
-    background-color: var(--verde-oliva);
-    margin-bottom: 1.25rem;
-    transition: 0.4s ease;
+    aspect-ratio: 4 / 5;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.4s ease, filter 0.4s ease;
 }
 
 .art-card:hover .art-img {
-    background-color: var(--verde-profondo);
+    transform: scale(1.03);
+    filter: brightness(1.05);
 }
 
 .art-card h3 {
     font-family: 'Playfair Display', serif;
-    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+    margin: 0.75rem 1rem 0.25rem 1rem;
 }
 
 .art-card p {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    color: var(--verde-oliva);
+    margin: 0 1rem 1rem 1rem;
+}
+
+/* ABOUT SECTION */
+.about {
+    padding: 5rem 10%;
+    text-align: center;
+    background-color: var(--bianco);
+}
+
+.about-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.about p {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
     color: var(--verde-oliva);
 }
 
+/* Animazione fade-in */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-text {
+    animation: fadeUp 1s ease forwards;
+}
