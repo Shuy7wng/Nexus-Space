@@ -28,7 +28,7 @@ $stmt = $conn->prepare("
     FROM commenti c
     INNER JOIN utenti u ON c.ID_Utente = u.ID_Utente
     WHERE c.ID_Opera = ?
-    ORDER BY c.ID_Com DESC
+    ORDER BY c.ID_Com ASC
 ");
 $stmt->bind_param("i", $id_opera);
 $stmt->execute();

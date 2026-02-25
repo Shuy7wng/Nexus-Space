@@ -25,7 +25,6 @@ $sql = "SELECT ID_Opera, Titolo, Tipo, Anno, Percorso_File
 
 $result = $conn->query($sql);
 ?>
-
 <!-- HERO SECTION -->
 <section class="hero">
     <div class="hero-text">

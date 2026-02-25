@@ -5,7 +5,7 @@ requireLogin();
 
 $user_id = $_SESSION['user_id'];
 
-// Recupero dati completi + Ruolo
+// Query che recupera i dati dell'utente e il nome del ruolo associato
 $stmt = $conn->prepare("
     SELECT u.*, r.Nome_ruolo 
     FROM utenti u 
@@ -16,7 +16,8 @@ $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $user = $stmt->get_result()->fetch_assoc();
 
-// Recupero Storico (Commenti e Like)
+// Query che recuperano lo storico di commenti e like 
+// Commenti
 $stmt_com = $conn->prepare("
 SELECT c.Commento, o.Titolo, o.ID_Opera
 FROM commenti c 
@@ -27,6 +28,7 @@ $stmt_com->bind_param("i", $user_id);
 $stmt_com->execute();
 $commenti = $stmt_com->get_result();
 
+// Like
 $stmt_like = $conn->prepare("
 SELECT o.Titolo, o.ID_Opera
 FROM likes l 

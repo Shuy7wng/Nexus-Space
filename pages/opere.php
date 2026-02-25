@@ -8,7 +8,8 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
     die("Evento non valido.");
 }
 
-$id_evento = intval($_GET['id']); // Sanitizzazione dell'ID
+// Per sicurezza converto l'ID in intero (sanitizzazione)
+$id_evento = intval($_GET['id']);
 
 // Recupero delle opere dal DB
 $stmt = $conn->prepare("SELECT o.*, u.Nome AS Nome_Autore, u.Cognome AS Cognome_Autore FROM opere o INNER JOIN Utenti u ON o.ID_Utente = u.ID_Utente WHERE ID_Evento = ? AND Stato = 'Accettata'");
@@ -62,21 +63,21 @@ $risultato = $stmt->get_result();
                                     <?php
                                     $id_utente = $_SESSION['user_id'] ?? 0;
 
-                                    // Conteggio totale like
+                                    // Query che conta i like per questa opera
                                     $stmt_count = $conn->prepare("SELECT COUNT(*) as totale FROM likes WHERE ID_Opera = ?");
                                     $stmt_count->bind_param("i", $opera['ID_Opera']);
                                     $stmt_count->execute();
                                     $num_likes = $stmt_count->get_result()->fetch_assoc()['totale'];
                                     $stmt_count->close();
 
-                                    // Controllo se l'utente ha già messo like
+                                    // Query che controlla se l'utente ha già messo like
                                     $already_liked = false;
                                     if ($id_utente) {
                                         $stmt_check = $conn->prepare("SELECT 1 FROM likes WHERE ID_Utente = ? AND ID_Opera = ?");
                                         $stmt_check->bind_param("ii", $id_utente, $opera['ID_Opera']);
                                         $stmt_check->execute();
                                         $stmt_check->store_result();
-                                        $already_liked = $stmt_check->num_rows > 0;
+                                        $already_liked = $stmt_check->num_rows > 0; // Se c'è almeno una riga, l'utente ha già messo like
                                         $stmt_check->close();
                                     }
 
@@ -84,8 +85,18 @@ $risultato = $stmt->get_result();
                                     $like_class = $already_liked ? 'liked' : '';
                                     ?>
 
+                                    <!-- Span che mostra il numero di like dell'opera -->
+                                    <!-- L'ID include l'ID dell'opera per permettere aggiornamenti dinamici tramite JS -->
                                     <span class="like-count" id="like-count-<?php echo $opera['ID_Opera']; ?>"><?php echo $num_likes; ?></span>
+                                    
+                                    <!-- Pulsante per mettere o togliere il like -->
+                                    <!-- La classe $like_class cambia se l'utente ha già messo like -->
+                                    <!-- data-id contiene l'ID dell'opera per permettere azioni via JS -->
                                     <button class="btn-like <?php echo $like_class; ?>" data-id="<?php echo $opera['ID_Opera']; ?>"><?php echo $heart; ?></button>
+                                    
+
+                                    <!-- Pulsante per aprire i commenti dell'opera -->
+                                    <!-- data-id identifica a quale opera si riferiscono i commenti -->
                                     <button class="btn-comment" data-id="<?php echo $opera['ID_Opera']; ?>">💬</button>
                                 </div>
                             </div>
@@ -103,9 +114,9 @@ $risultato = $stmt->get_result();
     <!-- --- MODAL COMMENTI FULL SCREEN (UNA SOLA VOLTA) --- -->
     <div id="comment-modal" style="display:none;">
         <div class="modal-content">
+            
+            <!-- &times; è un entità HTML che rappresenta una X-->
             <span id="close-modal">&times;</span>
-
-            <!-- TITOLO COMMENTI -->
             <h2 class="modal-title">Commenti</h2>
 
             <div class="modal-body" id="modal-comment-list">
@@ -125,114 +136,6 @@ $risultato = $stmt->get_result();
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 
-    <script>
-        // LIKE
-        document.querySelectorAll('.btn-like').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const operaId = btn.dataset.id;
-                fetch('/Nexus-Space/actions/add_like.php', {
-                        method: 'POST',
-                        credentials: 'same-origin',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: 'id_opera=' + operaId
-                    })
-                    .then(res => res.text())
-                    .then(data => {
-                        if (data === 'not_logged') {
-                            window.location.href = '/Nexus-Space/pages/login.php';
-                            return;
-                        }
-                        let countElem = document.getElementById(`like-count-${operaId}`);
-                        let count = parseInt(countElem.textContent);
-                        if (data === 'added') {
-                            btn.innerText = '♥';
-                            btn.classList.add('liked');
-                            countElem.textContent = count + 1;
-                        }
-                        if (data === 'removed') {
-                            btn.innerText = '♡';
-                            btn.classList.remove('liked');
-                            countElem.textContent = count - 1;
-                        }
-                    }).catch(err => console.error(err));
-            });
-        });
-
-        // COMMENTI
-        let currentOperaId = null;
-        const modal = document.getElementById('comment-modal');
-        const modalBody = document.getElementById('modal-comment-list');
-        const modalForm = document.getElementById('modal-comment-form');
-        const closeBtn = document.getElementById('close-modal');
-
-        document.querySelectorAll('.btn-comment').forEach(btn => {
-            btn.addEventListener('click', () => {
-                currentOperaId = btn.dataset.id;
-                modal.style.display = 'flex';
-                loadComments(currentOperaId);
-            });
-        });
-
-        closeBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-            modalBody.innerHTML = '<p class="loading">Caricamento commenti...</p>';
-        });
-
-        window.addEventListener('click', e => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-                modalBody.innerHTML = '<p class="loading">Caricamento commenti...</p>';
-            }
-        });
-
-        function loadComments(operaId) {
-            fetch(`/Nexus-Space/actions/comments_handler.php?id_opera=${operaId}`)
-                .then(res => res.json())
-                .then(data => {
-                    modalBody.innerHTML = '';
-                    if (data.length === 0) {
-                        modalBody.innerHTML = '<p class="no-comments">Nessun commento ancora.</p>';
-                        return;
-                    }
-                    data.forEach(c => {
-                        const div = document.createElement('div');
-                        div.className = 'comment-item';
-                        div.innerHTML = `<strong>${c.nickname}:</strong> ${c.commento}`;
-                        modalBody.appendChild(div);
-                    });
-                    modalBody.scrollTop = modalBody.scrollHeight;
-                });
-        }
-
-        if (modalForm) {
-            modalForm.addEventListener('submit', e => {
-                e.preventDefault();
-                const input = modalForm.querySelector('input[name="commento"]');
-                const commento = input.value.trim();
-                if (!commento) return;
-
-                fetch('/Nexus-Space/actions/comments_handler.php', {
-                        method: 'POST',
-                        credentials: 'same-origin',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: `id_opera=${currentOperaId}&commento=${encodeURIComponent(commento)}`
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.status === 'not_logged') {
-                            window.location.href = '/Nexus-Space/pages/login.php';
-                            return;
-                        }
-                        input.value = '';
-                        loadComments(currentOperaId);
-                    });
-            });
-        }
-    </script>
+    <script src="/Nexus-Space/assets/js/dettagli.js"></script>
 </body>
-
 </html>

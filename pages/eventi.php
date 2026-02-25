@@ -15,7 +15,7 @@ $risultato = $conn->query($query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus</title>
+    <title>Eventi - Nexus Space</title>
     <link rel="stylesheet" href="/Nexus-Space/assets/css/base.css">
     <link rel="stylesheet" href="/Nexus-Space/assets/css/eventi.css">
 
@@ -45,6 +45,7 @@ $risultato = $conn->query($query);
                                 <p class="event-desc"><?php echo htmlspecialchars($evento['Descrizione']); ?></p>
                                 
                                 <div class="event-actions">
+                                    <!-- Passa l'ID dell'evento alla pagina opere.php con GET -->
                                     <a href="opere.php?id=<?php echo $evento['ID_Evento']; ?>" class="btn-action">Dettagli</a>
                                 </div>
                             </div>

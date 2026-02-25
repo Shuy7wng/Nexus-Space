@@ -80,6 +80,7 @@ $risultato = $conn->query($query);
                             </p>
                         </div>
 
+                        <!-- Con questi link la pagina richiama se stessa passando con GET l'ID il tipo di azione effettuata tramite --> 
                         <div class="opera-actions">
                             <a href="gestione_opere.php?id=<?= $opera['ID_Opera']; ?>&azione=accetta" 
                             class="btn-outline btn-accetta">Accetta</a>

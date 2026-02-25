@@ -60,7 +60,8 @@ $result = $stmt->get_result();
                         <td><?php echo htmlspecialchars($utente['Email']); ?></td>
                         <td><?php echo htmlspecialchars($utente['Nome_Ruolo']); ?></td>
                         <td> 
-                            <!--Se un utente è Visitatore, metto il tasto 'Promuovi', se invece è Admin metto il tasto 'Retrocedi' -->
+                            <!-- Se un utente è Visitatore, metto il tasto 'Promuovi', se invece è Admin metto il tasto 'Retrocedi' -->
+                            <!-- Cliccando i link chiamo la pagina cambia_ruolo passando l'ID dell'utente con GET -->
                             <?php if ($utente['ID_Ruolo'] == 3): // Visitatore ?>
                                 <a href="cambia_ruolo.php?id=<?php echo $utente['ID_Utente']; ?>&ruolo=1" class="btn-action">Promuovi</a>
                             <?php elseif ($utente['ID_Ruolo'] == 1): // Admin ?>

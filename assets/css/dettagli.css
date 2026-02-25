@@ -225,3 +225,108 @@ body {
         margin-top: 15px;
     }
 }
+
+/* ===== MODAL COMMENTI ===== */
+
+#comment-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(43, 48, 37, 0.85); /* verde scuro trasparente */
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--bianco);
+    width: 90%;
+    max-width: 800px;
+    max-height: 85vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    position: relative;
+}
+
+/* Titolo modal */
+.modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* Bottone chiusura */
+#close-modal {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--verde-scuro);
+    transition: 0.3s ease;
+}
+
+#close-modal:hover {
+    transform: scale(1.2);
+}
+
+/* Lista commenti nel modal */
+.modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* Scrollbar minimal */
+.modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: var(--beige);
+}
+
+/* Form commento */
+#modal-comment-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#modal-comment-form input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid var(--beige);
+    font-family: 'Inter', sans-serif;
+}
+
+#modal-comment-form button {
+    padding: 10px 20px;
+    background: var(--sabbia);
+    border: 1px solid var(--sabbia);
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+#modal-comment-form button:hover {
+    background: transparent;
+}
+
+/* Bottone commenti sotto l'opera */
+.btn-comment {
+    margin-top: 20px;
+    padding: 10px 28px;
+    background: transparent;
+    border: 1px solid var(--verde-scuro);
+    color: var(--verde-scuro);
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.btn-comment:hover {
+    background: var(--verde-scuro);
+    color: var(--bianco);
+}
