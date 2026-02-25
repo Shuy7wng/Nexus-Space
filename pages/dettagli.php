@@ -100,10 +100,32 @@ $stmt_count->close();
                     <p class="anno inter"><strong>Anno:</strong> <?php echo htmlspecialchars($opera['Anno']); ?></p>
                     <p class="autore inter"><strong>Autore:</strong> <?php echo htmlspecialchars($opera['Nome_Autore'] . " " . $opera['Cognome_Autore']); ?></p>
                     <p class="contatti inter"><strong>Contatti:</strong> <?php echo htmlspecialchars($opera['Email']); ?></p>
-                    <p class="sponsor inter"><strong>Sponsor:</strong> <?php echo htmlspecialchars($opera['Sponsor']); ?></p>
+                    <p class="sponsor inter"><strong>Tipo:</strong> <?php echo htmlspecialchars($opera['Tipo']); ?></p>
+                    
+                    <!-- In base al tipo di opera, mostra i campi Tipo di tela o Materiale -->
+                    <?php if ($opera['Tipo'] === 'Dipinto'): ?>
+                        <p class="sponsor inter">
+                            <strong>Tipo di Tela:</strong>
+                            <?php echo htmlspecialchars($opera['Tipo_Tela']); ?>
+                        </p>
+
+                    <?php elseif ($opera['Tipo'] === 'Scultura'): ?>
+                        <p class="sponsor inter">
+                            <strong>Materiale:</strong>
+                            <?php echo htmlspecialchars($opera['Materiale']); ?>
+                        </p>
+                    <?php endif; ?>
+
+                    <!-- Se l'opera è sponsorizzata, viene mostrato il nome dello Sponsor -->
+                    <?php if (!empty($opera['Sponsor'])): ?>
+                        <p class="sponsor inter">
+                            <strong>Sponsor:</strong>
+                            <?php echo htmlspecialchars($opera['Sponsor']); ?>
+                        </p>
+                    <?php endif; ?>
 
                     <div class="descrizione">
-                        <p class="inter"><strong>Descrizione:</strong><br><?php echo nl2br(htmlspecialchars($opera['Descrizione'])); ?></p>
+                        <p class="descrizione inter"><strong>Descrizione:</strong><br><?php echo nl2br(htmlspecialchars($opera['Descrizione'])); ?></p>
                     </div>
 
                     <!-- SEZIONE LIKE -->

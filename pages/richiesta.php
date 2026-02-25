@@ -23,8 +23,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tipo_tela = $_POST['tipo_tela'] ?? '';
     $anno = $_POST['anno'] ?? '';
     $id_evento = $_POST['id_evento'] ?? '';
+    
+    // Gestione sponsor
+    $nome_sponsor = trim($_POST['nome_sponsor'] ?? '');
+    $id_sponsor = null;
+
+    if (!empty($nome_sponsor)) {
+
+        // Controllo se lo sponsor esiste già
+        $check = $conn->prepare("SELECT ID_Sponsor FROM Sponsor WHERE Nome = ?");
+        $check->bind_param("s", $nome_sponsor);
+        $check->execute();
+        $result = $check->get_result();
+
+        if ($result->num_rows > 0) {
+            // Sponsor già esistente → recupero ID
+            $row = $result->fetch_assoc();
+            $id_sponsor = $row['ID_Sponsor'];
+        } else {
+            // Inserisco nuovo sponsor
+            $insertSponsor = $conn->prepare("INSERT INTO Sponsor (Nome) VALUES (?)");
+            $insertSponsor->bind_param("s", $nome_sponsor);
+            $insertSponsor->execute();
+
+            $id_sponsor = $conn->insert_id;
+            $insertSponsor->close();
+        }
+
+        $check->close();
+    }
 
     if ($tipo !== 'Dipinto') $tipo_tela = null;
+    
     // Upload file
     $filePercorso = null;
 
@@ -57,10 +87,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Salva opera nel DB
     $stmt = $conn->prepare("
         INSERT INTO Opere 
-        (Titolo, Descrizione, Tipo, Materiale, Tipo_Tela, Anno, Percorso_File, Stato, NumLike, ID_Utente, ID_ArtistaS, ID_Evento) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, 'In attesa', 0, ?, NULL, ?)
+        (Titolo, Descrizione, Tipo, Materiale, Tipo_Tela, Anno, Percorso_File, Stato, ID_Utente, ID_ArtistaS, ID_Evento, ID_Sponsor) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, 'In attesa', ?, NULL, ?, ?)
     ");
-    $stmt->bind_param("sssssisii", $titolo, $descrizione, $tipo, $materiale, $tipo_tela, $anno, $filePercorso, $userID, $id_evento);
+    $stmt->bind_param("sssssisiii", $titolo, $descrizione, $tipo, $materiale, $tipo_tela, $anno, $filePercorso, $userID, $id_evento, $id_sponsor);
     $stmt->execute();
 
     $successMsg = "Opera inserita correttamente!";
@@ -69,7 +99,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
     <meta charset="UTF-8">
     <title>Inserisci Opera</title>
@@ -123,6 +152,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <label id="materiale-label" style="display:none;">Materiale
                 <input type="text" name="materiale" placeholder="es. marmo">
+            </label>
+
+            <label class="full-row">Nome Sponsor (facoltativo)
+                <input type="text" name="nome_sponsor" placeholder="Inserisci nome sponsor (opzionale)">
             </label>
 
             <!-- Upload immagine centrato -->
