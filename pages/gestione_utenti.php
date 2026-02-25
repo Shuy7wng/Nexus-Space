@@ -1,23 +1,25 @@
-<?php
-require 'auth.php';
+<?php require 'auth.php';
 requireRole([1]); // solo admin
 require_once "../config/database.php";
 
 $search = $_GET['search'] ?? ''; // search bar
 $searchParam = "%$search%";
 
+// Query per ottenere gli utenti con ruolo Admin o Visitatore, escludendo l'utente loggato e filtrando per ID o Nickname
 $query = "SELECT u.ID_Utente, u.Nickname, u.Email, r.Nome_Ruolo, u.ID_Ruolo
           FROM utenti u
           INNER JOIN ruoli r ON u.ID_Ruolo = r.ID_Ruolo
           WHERE r.Nome_Ruolo IN ('Admin','Visitatore') 
+            AND u.ID_Utente != ?                            
             AND (u.ID_Utente LIKE ? OR u.Nickname LIKE ?)
           ORDER BY u.ID_Utente ASC";
 
 $stmt = $conn->prepare($query);
-$stmt->bind_param("ss", $searchParam, $searchParam);
+$stmt->bind_param("iss", $_SESSION['user_id'], $searchParam, $searchParam);
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
