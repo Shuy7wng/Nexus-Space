@@ -39,12 +39,22 @@ $stmt_like->bind_param("i", $user_id);
 $stmt_like->execute();
 $likes = $stmt_like->get_result();
 
-// Upload della foto profilo
+/* Perché bisogna spostare l'immagine caricata?
+    - Il file caricato tramite un form HTML viene temporaneamente salvato in una cartella di sistema (spesso /tmp) 
+      con un nome generico. 
+    - Se non si sposta, rimarrà lì e potrebbe essere cancellato automaticamente dal sistema dopo un certo periodo di tempo. 
+    - Spostandolo in una cartella specifica del progetto (es. uploads/profili/) con un nome univoco, 
+      garantisco che l'immagine sia accessibile e persistente per il profilo dell'utente.
+*/
+
+// Verifico se è stato inviato un nuovo file per la pfp e se non ci sono errori di upload
 if (isset($_FILES['new_pfp']) && $_FILES['new_pfp']['error'] == 0) {
 
     $estensione = strtolower(pathinfo($_FILES['new_pfp']['name'], PATHINFO_EXTENSION));
 
-    // Controllo estensione consentita
+    // Controllo dell'estensione
+    // Un utente con cattive intenzioni potrebbe provare a caricare un file eseguibile rinominato con estensione .jpg, 
+    // quindi è importante controllare l'estensione.
     $estensioniConsentite = ['jpg', 'jpeg', 'png', 'webp'];
     if (!in_array($estensione, $estensioniConsentite)) {
         die("Formato file non valido. Consentiti: jpg, jpeg, png, webp.");
@@ -55,8 +65,9 @@ if (isset($_FILES['new_pfp']) && $_FILES['new_pfp']['error'] == 0) {
 
     $cartella = "../uploads/profili/";
 
-    // Creo la cartella se non esiste
+    // Se la cartella non esiste, la creo (opzionale ma evita errori)
     if (!is_dir($cartella)) {
+         // Permessi di lettura/scrittura/esecuzione per tutti (opzionale, ma evita errori)
         mkdir($cartella, 0777, true);
     }
 
