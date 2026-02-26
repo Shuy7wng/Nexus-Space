@@ -1,6 +1,6 @@
 <?php
-require 'init.php';
-require 'auth.php';
+require_once 'init.php';
+require_once 'auth.php';
 require_once __DIR__ . "/../config/database.php";
 require_once __DIR__ . '/../includes/header.php';
 
