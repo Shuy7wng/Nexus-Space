@@ -63,7 +63,6 @@ document.querySelectorAll('.btn-comment').forEach(button => {
         currentOperaId = this.dataset.id; 
 
         // 2. Mostro il modal impostando il display a flex
-        // (Il modal era probabilmente nascosto con display: none)
         modal.style.display = 'flex';    
 
         // 3. Carico i commenti relativi a quell'opera tramite AJAX
@@ -201,7 +200,6 @@ document.querySelectorAll('.btn-like').forEach(button => {
         let count = parseInt(countElem.textContent);
 
         // --- CREAZIONE RICHIESTA AJAX POST ---
-
         const xhr = new XMLHttpRequest();
 
         // 4. Apro la richiesta verso lo script PHP che gestisce i like
