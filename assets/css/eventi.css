@@ -63,13 +63,13 @@ body {
 /* Griglia che riutilizza lo stile della gallery */
 .gallery-eventi {
     display: flex;
-    justify-content: center;
+    flex-direction: column;   /* 👈 fondamentale */
+    align-items: center;      /* centra le card */
     gap: 60px;
-    flex-wrap: wrap;
 }
 
 .event-card {
-    width: 320px; /* Leggermente più grande delle art-card */
+    width: 1000px; /* Leggermente più grande delle art-card */
     text-align: left;
     border: 1px solid var(--beige);
     background: #fff;
@@ -82,8 +82,13 @@ body {
 
 /* Box decorativo al posto della data */
 .event-img-placeholder {
-    height: 180px;
-    background-color: var(--verde-oliva);
+    /* enable overlay via pseudo-element */
+    position: relative;
+    overflow: hidden;
+
+    height: 230px;
+    background-size: cover;
+    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -95,19 +100,30 @@ body {
     transition: 0.4s ease;
 }
 
+/* dark-green overlay to mute background image */
+.event-img-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(43, 48, 37, 0.601); /* slightly darker for better contrast with h3 */
+    transition: background-color 0.4s ease;
+    z-index: 0;
+}
+
+/* ensure text/content sits above overlay */
+.event-img-placeholder > * {
+    position: relative;
+    z-index: 1;
+}
+
 .event-card:hover .event-img-placeholder {
     background-color: var(--verde-profondo);
     color: var(--bianco);
 }
 
-/* Regoliamo la card per essere più verticale e simile a un poster */
-.event-card {
-    width: 320px;
-    display: flex;
-    flex-direction: column; /* Gli elementi vanno uno sotto l'altro */
-    background: #fff;
-    border: 1px solid var(--beige);
-    transition: 0.3s ease;
+/* on hover deepen the overlay so image gets even darker */
+.event-card:hover .event-img-placeholder::before {
+    background-color: rgba(43, 48, 37, 0.65);
 }
 
 .event-info {

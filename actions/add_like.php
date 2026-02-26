@@ -3,12 +3,13 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../pages/auth.php';
 requireLogin();
 
-if (!isset($_GET['id_opera']) || empty($_GET['id_opera'])) {
-    die("Opera non valida.");
+if (!isset($_POST['id_opera']) || !is_numeric($_POST['id_opera'])) {
+    echo "error";
+    exit;
 }
 
-$id_opera  = intval($_GET['id_opera']);
 $id_utente = $_SESSION['user_id'];
+$id_opera = intval($_POST['id_opera']);
 
 /* Controllo se esiste */
 $stmt = $conn->prepare("SELECT 1 FROM likes WHERE ID_Utente = ? AND ID_Opera = ?");
@@ -16,20 +17,19 @@ $stmt->bind_param("ii", $id_utente, $id_opera);
 $stmt->execute();
 $stmt->store_result();
 
-$already_liked = $stmt->num_rows > 0;
-$stmt->close();
+if ($stmt->num_rows == 0) {
 
-if (!$already_liked) {
+    // INSERT
+    $insert = $conn->prepare("INSERT INTO likes (ID_Utente, ID_Opera) VALUES (?, ?)");
+    $insert->bind_param("ii", $id_utente, $id_opera);
 
-    // Aggiungo il like
-    $stmt = $conn->prepare("INSERT INTO likes (ID_Utente, ID_Opera) VALUES (?, ?)");
-    $stmt->bind_param("ii", $id_utente, $id_opera);
-    
-    if ($stmt->execute()) {
+    if ($insert->execute()) {
         echo "added";
     } else {
         echo "error";
     }
+
+    $insert->close();
 
 } else {
 

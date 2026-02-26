@@ -37,11 +37,10 @@ $risultato = $conn->query($query);
                 <?php if ($risultato->num_rows > 0): ?>
                     <?php while($evento = $risultato->fetch_assoc()): ?>
                         <article class="event-card">
-                            <div class="event-img-placeholder">
-                                <span class="playfair">Nexus</span>
+                            <div class="event-img-placeholder" style="background-image: url('../<?php echo htmlspecialchars($evento['Percorso_File']); ?>');">
+                                <h3 class="playfair"><?php echo htmlspecialchars($evento['Nome']); ?></h3>
                             </div>
                             <div class="event-info">
-                                <h3 class="playfair"><?php echo htmlspecialchars($evento['Nome']); ?></h3>
                                 <p class="event-desc"><?php echo htmlspecialchars($evento['Descrizione']); ?></p>
                                 
                                 <div class="event-actions">
