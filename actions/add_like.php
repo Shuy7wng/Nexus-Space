@@ -1,11 +1,7 @@
 <?php
-session_start();
 require_once __DIR__ . '/../config/database.php';
-
-if (!isset($_SESSION['user_id'])) {
-    echo "not_logged";
-    exit;
-}
+require_once __DIR__ . '/../pages/auth.php';
+requireLogin();
 
 if (!isset($_POST['id_opera']) || !is_numeric($_POST['id_opera'])) {
     echo "error";
