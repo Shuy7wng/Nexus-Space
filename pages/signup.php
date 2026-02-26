@@ -1,6 +1,7 @@
 <?php
 require 'auth.php';
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../includes/header.php';
 
 $errore = "";
 
@@ -77,7 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-<?php include __DIR__ . '/../includes/header.php'; ?>
     <div class="form-wrapper">
         <div class="form-container">
 

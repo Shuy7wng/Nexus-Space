@@ -2,6 +2,7 @@
 require 'auth.php';
 requireRole([1]); // solo admin
 require_once "../config/database.php";
+require_once __DIR__ . '/../includes/header.php';
 
 // Gestisce l'approvazione o il rifiuto di un'opera tramite query string (id e azione)
 if (isset($_GET['id'], $_GET['azione'])) {
@@ -51,7 +52,6 @@ $risultato = $conn->query($query);
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <?php include __DIR__ . '/../includes/header.php'; ?>
     <main class="collection-opere">
         <div class="container">
             <div class="gallery-opere">

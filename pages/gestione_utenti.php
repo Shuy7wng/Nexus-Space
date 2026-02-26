@@ -1,6 +1,7 @@
 <?php require 'auth.php';
 requireRole([1]); // solo admin
 require_once "../config/database.php";
+require_once __DIR__ . '/../includes/header.php';
 
 $search = $_GET['search'] ?? ''; // search bar
 $searchParam = "%$search%";
@@ -32,7 +33,6 @@ $result = $stmt->get_result();
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <?php include __DIR__ . '/../includes/header.php'; ?>
     <div class="page-wrapper">
         <h1 class="page-title">Gestione Utenti</h1>
         <div class="search-container">

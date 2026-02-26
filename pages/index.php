@@ -1,3 +1,18 @@
+<!-- HEADER -->
+<?php 
+require_once 'init.php';
+require_once __DIR__ . '/../includes/header.php';
+require_once __DIR__ . '/../config/database.php';
+
+$sql = "SELECT ID_Opera, Titolo, Tipo, Anno, Percorso_File 
+        FROM Opere 
+        WHERE Stato = 'Accettata'
+        ORDER BY ID_Opera DESC 
+        LIMIT 3";
+
+$result = $conn->query($sql);
+?>
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -11,20 +26,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-
-<!-- HEADER -->
-<?php include __DIR__ . '/../includes/header.php';
-require_once 'init.php';
-require_once __DIR__ . '/../config/database.php';
-
-$sql = "SELECT ID_Opera, Titolo, Tipo, Anno, Percorso_File 
-        FROM Opere 
-        WHERE Stato = 'Accettata'
-        ORDER BY ID_Opera DESC 
-        LIMIT 3";
-
-$result = $conn->query($sql);
-?>
 <!-- HERO SECTION -->
 <section class="hero">
     <div class="hero-text">

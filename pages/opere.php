@@ -2,6 +2,7 @@
 session_start();
 require 'auth.php';
 require_once __DIR__ . "/../config/database.php";
+require_once __DIR__ . '/../includes/header.php';
 
 // Controllo che l'id sia stato passato
 if (!isset($_GET['id']) || empty($_GET['id'])) {
@@ -30,7 +31,6 @@ $risultato = $stmt->get_result();
 </head>
 
 <body>
-    <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <section class="hero-opere">
         <div class="hero-text">

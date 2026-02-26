@@ -1,3 +1,5 @@
+<?php require_once __DIR__ . '/../includes/header.php';
+?>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -11,10 +13,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-
-<!-- HEADER -->
-<?php include __DIR__ . '/../includes/header.php'; ?>
-
 <section class="hero">
     <div class="hero-text">
         <h1>Contatti</h1>

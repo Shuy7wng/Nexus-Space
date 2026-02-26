@@ -1,7 +1,5 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once 'init.php';
 
 $ruolo = $_SESSION['role'] ?? null;
 ?>

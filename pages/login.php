@@ -1,7 +1,7 @@
 <?php
 require_once 'init.php';
 require_once __DIR__ . '/../config/database.php';
-
+require_once __DIR__ . '/../includes/header.php';
 $errore = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -57,9 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="/Nexus-Space/assets/css/login.css">
 </head>
 <body>
-
-<?php include __DIR__ . '/../includes/header.php'; ?>
-
 <div class="form-wrapper">
     <div class="form-container">
         <h2>Login</h2>

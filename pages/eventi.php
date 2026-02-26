@@ -1,6 +1,7 @@
 <?php
 require_once 'auth.php';
 require_once __DIR__ . "/../config/database.php";
+require_once __DIR__ . '/../includes/header.php';
 
 // Se l'utente è loggato recupero il ruolo, altrimenti lo setto a null
 $ruolo = $_SESSION['role'] ?? null;
@@ -23,7 +24,6 @@ $risultato = $conn->query($query);
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <?php include __DIR__ . '/../includes/header.php'; ?>
     <section class="hero-eventi">
         <div class="hero-text">
             <h1 class="playfair">Nexus Events</h1>

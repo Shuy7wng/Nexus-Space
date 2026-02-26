@@ -3,6 +3,7 @@ require 'auth.php';
 requireLogin();
 requireRole([2]); // Solo Artista
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../includes/header.php';
 
 // Prende dati utente
 $userID = $_SESSION['user_id'];
@@ -107,8 +108,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <?php include __DIR__ . '/../includes/header.php'; ?>
-
     <div class="opera-form-container">
         <h2>Inserisci Nuova Opera</h2>
 
