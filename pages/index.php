@@ -56,7 +56,7 @@ $result = $conn->query($sql);
 <hr>
 <!-- SEZIONE OPERE -->
 <div class="gallery">
-    <h2>Opere in Evidenza</h2>
+    <h2>Ultime opere</h2>
     <?php if ($result && $result->num_rows > 0): ?>
         <?php while ($opera = $result->fetch_assoc()): ?>
             <div class="art-card">
