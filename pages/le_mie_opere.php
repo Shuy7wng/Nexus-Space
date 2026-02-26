@@ -44,7 +44,7 @@ $risultato = $stmt->get_result();
                         <div class="opera-card">
 
                             <div class="opera-img">
-                                <a href="opera.php?id=<?php echo $opera['ID_Opera']; ?>">
+                                <a href="dettagli.php?id=<?php echo $opera['ID_Opera']; ?>">
                                     <img
                                         src="/Nexus-Space/<?php echo htmlspecialchars($opera['Percorso_File']); ?>"
                                         alt="<?php echo htmlspecialchars($opera['Titolo']); ?>">
