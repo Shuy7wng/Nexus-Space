@@ -33,7 +33,11 @@ body {
     margin-bottom: 2.5rem;
     color: var(--beige);
 }
-
+.event-actions{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
 .btn {
     padding: 0.9rem 2.5rem;
     background-color: var(--sabbia);
@@ -99,7 +103,9 @@ body {
     border-bottom: 1px solid var(--beige);
     transition: 0.4s ease;
 }
-
+.event-desc{
+    text-align: center;
+}
 /* dark-green overlay to mute background image */
 .event-img-placeholder::before {
     content: '';
