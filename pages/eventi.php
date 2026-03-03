@@ -26,7 +26,7 @@ $risultato = $conn->query($query);
 <body>
     <section class="hero-eventi">
         <div class="hero-text">
-            <h1 class="playfair">Nexus Events</h1>
+            <h1 class="playfair">Nexus Eventi</h1>
             <p class="inter">Esplora le esposizioni correnti e le opportunità della nostra galleria.</p>
         </div>
     </section>

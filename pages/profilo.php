@@ -100,7 +100,7 @@ if (isset($_FILES['new_pfp']) && $_FILES['new_pfp']['error'] == 0) {
 
 <body>
     <div class="profile-container">
-        <h2 class="profile-title">Il Mio Account</h2>
+        <h2 class="profile-title">Il Mio Profilo</h2>
 
         <div class="profile-header">
             <div class="pfp-section">
@@ -110,7 +110,7 @@ if (isset($_FILES['new_pfp']) && $_FILES['new_pfp']['error'] == 0) {
                         alt="pfp">
                 </div>
                 <form action="profilo.php" method="POST" enctype="multipart/form-data">
-                    <label for="pfp_input" class="change-pfp-label">Change pfp</label>
+                    <label for="pfp_input" class="change-pfp-label">Cambia pfp</label>
                     <input type="file" id="pfp_input" name="new_pfp" style="display: none;" onchange="this.form.submit()">
                 </form>
             </div>
@@ -138,7 +138,7 @@ if (isset($_FILES['new_pfp']) && $_FILES['new_pfp']['error'] == 0) {
         <div class="history-grid">
             <!-- COMMENT HISTORY -->
             <div class="history-section">
-                <h3>Comment History</h3>
+                <h3>Comment</h3>
                 <div class="history-list">
                     <?php if ($commenti->num_rows > 0): ?>
                         <?php while ($c = $commenti->fetch_assoc()): ?>
@@ -155,7 +155,7 @@ if (isset($_FILES['new_pfp']) && $_FILES['new_pfp']['error'] == 0) {
 
             <!-- LIKE HISTORY -->
             <div class="history-section">
-                <h3>Like History</h3>
+                <h3>Like</h3>
                 <div class="history-list">
                     <?php if ($likes->num_rows > 0): ?>
                         <?php while ($l = $likes->fetch_assoc()): ?>
