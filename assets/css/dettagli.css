@@ -200,28 +200,6 @@ body {
     transform: scale(1.1);
 }
 
-/* ===== RESPONSIVE ===== */
-
-@media (max-width: 900px) {
-
-    .opera-layout {
-        grid-template-columns: 1fr;
-        gap: 50px;
-    }
-
-    .opera-dettaglio {
-        padding: 70px 20px;
-    }
-
-    .opera-info h1 {
-        font-size: 2rem;
-    }
-
-    .commento-testo {
-        margin-left: 0;
-        margin-top: 15px;
-    }
-}
 
 /* ===== MODAL COMMENTI ===== */
 

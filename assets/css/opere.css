@@ -195,23 +195,6 @@ body {
     color: var(--beige);
 }
 
-/* RESPONSIVE */
-@media (max-width: 1000px) {
-    .gallery-opere {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 600px) {
-    .collection-opere {
-        padding: 60px 20px;
-    }
-
-    .gallery-opere {
-        grid-template-columns: 1fr;
-    }
-}
-
 /* --- MODAL FULL SCREEN COMMENTI --- */
 /* MODAL COMMENTI FULL SCREEN */
 #comment-modal {

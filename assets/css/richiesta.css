@@ -144,9 +144,3 @@ body {
     text-align: center;
     margin-bottom: 5px;
 }
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .opera-form {
-        grid-template-columns: 1fr;
-    }
-}

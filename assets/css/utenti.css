@@ -106,7 +106,7 @@ body {
 
 .users-table tbody tr {
     border-bottom: 1px solid #eee;
-    transition: background 0.2s ease;
+    transition: background 0.3s ease;
 }
 
 .users-table tbody tr:hover {
@@ -141,13 +141,4 @@ body {
 
 .btn-action:hover {
     background: var(--sabbia);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .users-table th,
-    .users-table td {
-        padding: 12px;
-        font-size: 0.8rem;
-    }
 }
