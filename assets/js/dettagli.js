@@ -14,9 +14,7 @@ function loadComments(idOpera) {
     modalBody.innerHTML = '<p class="loading">Caricamento commenti...</p>';
 
     // Effettuo una richiesta GET al server per ottenere i commenti dell'opera selezionata
-    fetch(`/Nexus-Space/actions/comments_handler.php?id_opera=${idOpera}`, {
-        credentials: 'include' // IMPORTANTE: invia i cookie per mantenere la sessione PHP
-    })
+    fetch(`/Nexus-Space/actions/comments_handler.php?id_opera=${idOpera}`)
     .then(response => {
 
         // Controllo se la risposta HTTP è valida (status 200-299)
@@ -98,11 +96,10 @@ if(commentForm){
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            credentials: 'include', // Serve per mantenere la sessione utente
             body:
                 'id_opera=' + encodeURIComponent(currentOperaId) +
                 '&commento=' + encodeURIComponent(commentText)
-                // encodeURIComponent evita problemi con spazi e caratteri speciali
+                // encodeURIComponent codifica spazi e caratteri speciali per evitare problemi di parsing
         })
         .then(response => {
 
@@ -114,7 +111,7 @@ if(commentForm){
         })
         .then(response => {
 
-            // Se il server dice che non sono loggata → redirect
+            // Se il server dice che non sono loggata → redirect alla pagina di login
             if (response.status === 'not_logged') {
                 window.location.href = '/Nexus-Space/pages/login.php';
                 return;
@@ -149,7 +146,6 @@ document.querySelectorAll('.btn-like').forEach(button => {
             headers: { // Indico che sto inviando dati in formato URL-encoded
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            credentials: 'include',
             body: 'id_opera=' + encodeURIComponent(idOpera)
         })
         .then(response => {
