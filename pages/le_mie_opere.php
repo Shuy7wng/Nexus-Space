@@ -76,7 +76,7 @@ $risultato = $stmt->get_result();
             </div>
         </div>
     </main>
-    <?php include __DIR__ . '/../includes/footer.php'; ?>
+    <?php include '../includes/footer.php'; ?>
 </body>
 
 </html>

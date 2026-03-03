@@ -27,6 +27,7 @@ if ($stmt->num_rows == 0) {
     $insert = $conn->prepare("INSERT INTO likes (ID_Utente, ID_Opera) VALUES (?, ?)");
     $insert->bind_param("ii", $id_utente, $id_opera);
 
+    // La risposta è "added" se il like è stato aggiunto, altrimenti "error"
     if ($insert->execute()) {
         echo "added";
     } else {
@@ -41,6 +42,7 @@ if ($stmt->num_rows == 0) {
     $delete = $conn->prepare("DELETE FROM likes WHERE ID_Utente = ? AND ID_Opera = ?");
     $delete->bind_param("ii", $id_utente, $id_opera);
 
+    // La risposta è "removed" se il like è stato rimosso, altrimenti "error"
     if ($delete->execute()) {
         echo "removed";
     } else {

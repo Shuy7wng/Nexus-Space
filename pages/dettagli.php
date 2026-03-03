@@ -186,7 +186,7 @@ $stmt_count->close();
         </div>
     </div>
 
-    <?php include __DIR__ . '/../includes/footer.php'; ?>
+    <?php include '../includes/footer.php'; ?>
 
     <!-- Script separato: gestione like e commenti -->
     <script src="/Nexus-Space/assets/js/dettagli.js"></script>

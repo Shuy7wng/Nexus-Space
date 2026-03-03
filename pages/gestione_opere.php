@@ -99,6 +99,6 @@ $risultato = $conn->query($query);
             </div>
         </div>
     </main>
-    <?php include __DIR__ . '/../includes/footer.php'; ?>
+    <?php include '../includes/footer.php'; ?>
 </body>
 </html>

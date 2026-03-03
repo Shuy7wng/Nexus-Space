@@ -13,6 +13,7 @@ function loadComments(idOpera) {
     // Mostro un messaggio temporaneo mentre il server risponde
     modalBody.innerHTML = '<p class="loading">Caricamento commenti...</p>';
 
+    // Effettuo una richiesta GET al server per ottenere i commenti dell'opera selezionata
     fetch(`/Nexus-Space/actions/comments_handler.php?id_opera=${idOpera}`, {
         credentials: 'include' // IMPORTANTE: invia i cookie per mantenere la sessione PHP
     })
@@ -36,7 +37,7 @@ function loadComments(idOpera) {
             // Inserisco i commenti nel modal, evidenziando il nickname in grassetto
             modalBody.innerHTML = comments.map(c =>
                 `<div class="comment"><strong>${c.nickname}</strong>: ${c.commento}</div>`
-            ).join('');
+            ).join(''); // Unisce le stringhe: nomeUtente + commento
         }
 
     })

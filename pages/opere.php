@@ -134,7 +134,7 @@ $risultato = $stmt->get_result();
         </div>
     </div>
 
-    <?php include __DIR__ . '/../includes/footer.php'; ?>
+    <?php include '../includes/footer.php'; ?>
 
     <script src="/Nexus-Space/assets/js/dettagli.js"></script>
 </body>

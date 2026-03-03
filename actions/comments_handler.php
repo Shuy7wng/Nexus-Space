@@ -2,6 +2,7 @@
 require '../pages/init.php';
 require '../config/database.php';
 
+// Specifico che la risposta sarà in formato JSON
 header('Content-Type: application/json');
 
 // Se l'ID non è valorizzato o non è un numero, lancio un errore
@@ -40,4 +41,5 @@ while($row = $result->fetch_assoc()){
     $comments[] = ['nickname'=>$row['Nickname'], 'commento'=>$row['Commento']];
 }
 
+// Restituisco i commenti in formato JSON
 echo json_encode($comments);

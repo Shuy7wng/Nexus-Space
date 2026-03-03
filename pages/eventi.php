@@ -57,7 +57,7 @@ $risultato = $conn->query($query);
         </div>
     </main>
 
-<?php include __DIR__ . '/../includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>
 
 </body>
 </html>

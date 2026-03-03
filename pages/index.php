@@ -76,7 +76,7 @@ $result = $conn->query($sql);
 </div><br><br><br>
 
 <!-- FOOTER -->
-<?php include __DIR__ . '/../includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>
 
 </body>
 </html>
