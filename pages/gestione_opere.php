@@ -1,8 +1,8 @@
 <?php
 require 'auth.php';
 requireRole([1]); // solo admin
-require_once "../config/database.php";
-require_once __DIR__ . '/../includes/header.php';
+require '../config/database.php';
+require '../includes/header.php';
 
 // Gestisce l'approvazione o il rifiuto di un'opera tramite query string (id e azione)
 if (isset($_GET['id'], $_GET['azione'])) {

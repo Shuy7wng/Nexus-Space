@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . "/../config/database.php";
-require_once __DIR__ . '/../includes/header.php';
+require '../config/database.php';
+require '../includes/header.php';
 
 if (!isset($conn)) {
     die("Connessione al database non trovata.");

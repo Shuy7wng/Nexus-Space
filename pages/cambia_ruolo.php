@@ -1,7 +1,7 @@
 <?php
 require 'auth.php';
 requireRole([1]); // solo admin
-require_once "../config/database.php";
+require ' ../config/database.php';
 
 // Il cast serve ad evitare SQL Injection
 $id = (int)$_GET['id'];

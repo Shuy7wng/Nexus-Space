@@ -1,8 +1,8 @@
 <!-- HEADER -->
 <?php 
-require_once 'init.php';
-require_once __DIR__ . '/../includes/header.php';
-require_once __DIR__ . '/../config/database.php';
+require 'init.php';
+require '../includes/header.php';
+require '../config/database.php';
 
 $sql = "SELECT ID_Opera, Titolo, Tipo, Anno, Percorso_File 
         FROM Opere 

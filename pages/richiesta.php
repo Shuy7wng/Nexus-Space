@@ -2,8 +2,8 @@
 require 'auth.php';
 requireLogin();
 requireRole([2]); // Solo Artista
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../includes/header.php';
+require '../config/database.php';
+require '../includes/header.php';
 
 // Prende dati utente
 $userID = $_SESSION['user_id'];

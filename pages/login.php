@@ -1,7 +1,7 @@
 <?php
-require_once 'init.php';
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../includes/header.php';
+require 'init.php';
+require '../config/database.php';
+require '../includes/header.php';
 $errore = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

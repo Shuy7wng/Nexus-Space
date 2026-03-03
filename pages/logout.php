@@ -1,5 +1,5 @@
 <?php
-require_once 'init.php';
+require 'init.php';
 
 // Svuoto l'array di sessione
 $_SESSION = [];

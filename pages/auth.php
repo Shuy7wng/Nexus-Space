@@ -1,5 +1,5 @@
 <?php
-require_once 'init.php';
+require 'init.php';
 
 function isLogged() {
     return isset($_SESSION['role']);

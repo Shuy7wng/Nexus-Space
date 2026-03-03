@@ -1,9 +1,10 @@
 <?php
-require_once __DIR__.'/../pages/init.php';
-require_once __DIR__.'/../config/database.php';
+require '../pages/init.php';
+require '../config/database.php';
 
 header('Content-Type: application/json');
 
+// Se l'ID non è valorizzato o non è un numero, lancio un errore
 $id_opera = intval($_GET['id_opera'] ?? $_POST['id_opera'] ?? 0);
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){

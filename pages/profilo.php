@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/../config/database.php";
+require '../config/database.php';
 require 'auth.php';
 requireLogin();
 

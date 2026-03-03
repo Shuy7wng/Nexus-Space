@@ -1,8 +1,8 @@
 <?php
-require_once 'init.php';
-require_once 'auth.php';
-require_once __DIR__ . "/../config/database.php";
-require_once __DIR__ . '/../includes/header.php';
+require 'init.php';
+require 'auth.php';
+require '../config/database.php';
+require '../includes/header.php';
 
 // Controllo che l'id sia stato passato
 if (!isset($_GET['id']) || empty($_GET['id'])) {
