@@ -115,6 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p class="success-msg"><?= $successMsg ?></p>
         <?php endif; ?>
 
+        <!-- Enctype indica che il form può inviare file -->
         <form method="POST" enctype="multipart/form-data" class="opera-form">
             <label>Titolo
                 <input type="text" name="titolo" placeholder="Titolo" required>

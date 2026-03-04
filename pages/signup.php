@@ -19,7 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errore = "Compila tutti i campi.";
     } else {
 
-        $password = password_hash($password_raw, PASSWORD_DEFAULT);
+        // Prima di convertire la password in hash, controllo che rispetti i requisiti minimi (es. lunghezza)
+        if (strlen($password_raw) < 8 || strlen($password_raw) > 64) {
+            $errore = "La password deve essere tra 8 e 64 caratteri.";
+        } else {
+            $password = password_hash($password_raw, PASSWORD_DEFAULT);
+        }
 
         // Se la checkbox è selezionata, l'utente è un Artista (2), altrimenti è un Visitatore (3)
         $ruolo = isset($_POST['artista']) ? 2 : 3;
