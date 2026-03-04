@@ -8,20 +8,29 @@ header('Content-Type: application/json');
 // Se l'ID non è valorizzato o non è un numero, lancio un errore
 $id_opera = intval($_GET['id_opera'] ?? $_POST['id_opera'] ?? 0);
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
-    // Aggiungi commento
-    if(!isset($_SESSION['user_id'])){
-        echo json_encode(['status'=>'not_logged']);
+// Se è POST leggo il JSON
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $input = json_decode(file_get_contents("php://input"), true);
+
+    $id_opera = intval($input['id_opera'] ?? 0);
+    $commento = trim($input['commento'] ?? '');
+
+    if (!isset($_SESSION['user_id'])) {
+        echo json_encode(['status' => 'not_logged']);
         exit;
     }
 
-    $id_utente = $_SESSION['user_id'];
-    $commento = trim($_POST['commento'] ?? '');
-    if($commento){
+    if ($id_opera && $commento) {
+        $id_utente = $_SESSION['user_id'];
+
         $stmt = $conn->prepare("INSERT INTO commenti (ID_Opera, ID_Utente, Commento) VALUES (?, ?, ?)");
         $stmt->bind_param("iis", $id_opera, $id_utente, $commento);
         $stmt->execute();
     }
+
+    echo json_encode(['status' => 'success']);
+    exit;
 }
 
 // Recupera commenti
