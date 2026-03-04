@@ -1,6 +1,4 @@
-<!-- HEADER -->
 <?php 
-require 'init.php';
 require '../includes/header.php';
 require '../config/database.php';
 

@@ -12,7 +12,7 @@ if (!isset($_POST['id_opera']) || !is_numeric($_POST['id_opera'])) {
 $id_utente = $_SESSION['user_id'];
 
 // Per sicurezza faccio il parse dell'ID 
-$id_opera = intval($_POST['id_opera']);
+$id_opera = $_POST['id_opera'];
 
 // Controllo se l'utente ha già messo like a questa opera
 $stmt = $conn->prepare("SELECT 1 FROM likes WHERE ID_Utente = ? AND ID_Opera = ?");

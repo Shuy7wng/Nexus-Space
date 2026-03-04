@@ -1,5 +1,4 @@
 <?php
-require 'init.php';
 require 'auth.php';
 require '../config/database.php';
 require '../includes/header.php';

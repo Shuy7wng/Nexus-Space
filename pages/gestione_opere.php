@@ -62,7 +62,8 @@ $risultato = $conn->query($query);
                     <div class="opera-card">
                         
                         <div class="opera-img">
-                            <a href="opera.php?id=<?php echo $opera['ID_Opera']; ?>"><img src="/Nexus-Space/<?php echo htmlspecialchars($opera['Percorso_File']); ?>" 
+                            <a href="opera.php?id=<?php echo $opera['ID_Opera']; ?>">
+                                <img src="/Nexus-Space/<?php echo htmlspecialchars($opera['Percorso_File']); ?>" 
                                 alt="<?php echo htmlspecialchars($opera['Titolo']); ?>"></a>
                         </div>
 

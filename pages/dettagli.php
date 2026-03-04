@@ -2,10 +2,6 @@
 require '../config/database.php';
 require '../includes/header.php';
 
-if (!isset($conn)) {
-    die("Connessione al database non trovata.");
-}
-
 // Controllo ID opera
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     die("ID opera non valido.");
@@ -35,18 +31,6 @@ if ($result->num_rows === 0) {
 $opera = $result->fetch_assoc();
 $stmt->close();
 
-// Recupero commenti con dati utente
-$stmt_commenti = $conn->prepare("
-    SELECT c.Commento, u.Nickname, u.Percorso_File
-    FROM Commenti c
-    INNER JOIN Utenti u ON c.ID_Utente = u.ID_Utente
-    WHERE c.ID_Opera = ?
-    ORDER BY c.ID_Com DESC
-");
-$stmt_commenti->bind_param("i", $id_opera);
-$stmt_commenti->execute();
-$commenti = $stmt_commenti->get_result();
-$stmt_commenti->close();
 
 // Recupero informazioni like
 $num_likes = 0;
@@ -68,7 +52,9 @@ if (isset($_SESSION['user_id'])) {
 $stmt_count = $conn->prepare("SELECT COUNT(*) as totale FROM likes WHERE ID_Opera = ?");
 $stmt_count->bind_param("i", $id_opera);
 $stmt_count->execute();
-$num_likes = $stmt_count->get_result()->fetch_assoc()['totale'];
+$result = $stmt_count->get_result();
+$row = $result->fetch_assoc();
+$num_likes = $row['totale'];
 $stmt_count->close();
 
 ?>
@@ -124,7 +110,7 @@ $stmt_count->close();
                     <?php endif; ?>
 
                     <div class="descrizione">
-                        <p class="descrizione inter"><strong>Descrizione:</strong><br><?php echo nl2br(htmlspecialchars($opera['Descrizione'])); ?></p>
+                        <p class="descrizione inter"><strong>Descrizione:</strong><br><?php echo htmlspecialchars($opera['Descrizione']); ?></p>
                     </div>
 
                     <!-- SEZIONE LIKE -->
@@ -159,19 +145,7 @@ $stmt_count->close();
             <span id="close-modal">&times;</span>
             <h2 class="modal-title">Commenti</h2>
             <div class="modal-body" id="modal-comment-list">
-                <?php if ($commenti->num_rows > 0): ?>
-                    <?php while($commento = $commenti->fetch_assoc()): ?>
-                        <div class="comment-item">
-                            <div class="commento-header">
-                                <img src="/Nexus-Space/<?php echo htmlspecialchars($commento['Percorso_File'] ?? 'assets/img/login-icon.png'); ?>" alt="pfp">
-                                <span class="commento-nickname"><?php echo htmlspecialchars($commento['Nickname']); ?></span>
-                            </div>
-                            <p class="commento-testo"><?php echo nl2br(htmlspecialchars($commento['Commento'])); ?></p>
-                        </div>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <p class="no-comments">Nessun commento ancora.</p>
-                <?php endif; ?>
+                <p class="loading">Caricamento commenti...</p>
             </div>
 
                 <!-- Se l'utente è loggato, mostra il form per commentare -->

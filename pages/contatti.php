@@ -7,8 +7,6 @@
     <title>Nexus</title>
     <link rel="stylesheet" href="/Nexus-Space/assets/css/base.css">
     <link rel="stylesheet" href="/Nexus-Space/assets/css/contatti.css">
-
-    <!-- Google Font elegante -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -33,7 +31,6 @@
     </div>
 </section>
 
-<!-- FOOTER -->
 <?php include '../includes/footer.php'; ?>
 
 </body>

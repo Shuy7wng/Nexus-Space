@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $estensione = strtolower(pathinfo($_FILES['percorso_file']['name'], PATHINFO_EXTENSION));
 
-        // (opzionale ma consigliato) controllo estensione
+        // Controllo estensione
         $estensioniConsentite = ['jpg', 'jpeg', 'png', 'webp'];
         if (in_array($estensione, $estensioniConsentite)) {
 

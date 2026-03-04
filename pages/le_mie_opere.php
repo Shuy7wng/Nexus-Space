@@ -44,11 +44,9 @@ $risultato = $stmt->get_result();
                         <div class="opera-card">
 
                             <div class="opera-img">
-                                <a href="dettagli.php?id=<?php echo $opera['ID_Opera']; ?>">
-                                    <img
-                                        src="/Nexus-Space/<?php echo htmlspecialchars($opera['Percorso_File']); ?>"
-                                        alt="<?php echo htmlspecialchars($opera['Titolo']); ?>">
-                                </a>
+                                <img
+                                    src="/Nexus-Space/<?php echo htmlspecialchars($opera['Percorso_File']); ?>"
+                                    alt="<?php echo htmlspecialchars($opera['Titolo']); ?>">
                             </div>
 
                             <div class="opera-info">
@@ -61,7 +59,7 @@ $risultato = $stmt->get_result();
                                 </p>
 
                                 <!--Faccio diventare lo Stato una classe CSS (al posto degli spazi metto dei trattini-->
-                                <p class="stato <?= strtolower(str_replace(' ', '-', $opera['Stato'])) ?>"> 
+                                <p class="stato <? echo strtolower(str_replace(' ', '-', $opera['Stato'])) ?>">
                                     <?= $opera['Stato']; ?>
                                 </p>
                             </div>
