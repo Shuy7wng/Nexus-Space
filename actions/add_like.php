@@ -3,16 +3,19 @@ require '../config/database.php';
 require '../pages/auth.php';
 requireLogin();
 
-// Se l'ID non è valorizzato o non è un numero, lancio un errore
-if (!isset($_POST['id_opera']) || !is_numeric($_POST['id_opera'])) {
-    echo "error";
+header('Content-Type: application/json');
+
+// Leggo il JSON
+$input = json_decode(file_get_contents("php://input"), true);
+
+$id_opera = intval($input['id_opera'] ?? 0);
+
+if (!$id_opera) {
+    echo json_encode(['status' => 'error']);
     exit;
 }
 
 $id_utente = $_SESSION['user_id'];
-
-// Per sicurezza faccio il parse dell'ID 
-$id_opera = $_POST['id_opera'];
 
 // Controllo se l'utente ha già messo like a questa opera
 $stmt = $conn->prepare("SELECT 1 FROM likes WHERE ID_Utente = ? AND ID_Opera = ?");
@@ -29,9 +32,9 @@ if ($stmt->num_rows == 0) {
 
     // La risposta è "added" se il like è stato aggiunto, altrimenti "error"
     if ($insert->execute()) {
-        echo "added";
+        echo json_encode(['status' => 'added']);
     } else {
-        echo "error";
+        echo json_encode(['status' => 'error']);
     }
 
     $insert->close();
@@ -44,9 +47,9 @@ if ($stmt->num_rows == 0) {
 
     // La risposta è "removed" se il like è stato rimosso, altrimenti "error"
     if ($delete->execute()) {
-        echo "removed";
+        echo json_encode(['status' => 'removed']);
     } else {
-        echo "error";
+        echo json_encode(['status' => 'error']);
     }
 
     $delete->close();

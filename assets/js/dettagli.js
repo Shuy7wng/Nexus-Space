@@ -93,13 +93,11 @@ if(commentForm){
 
         fetch('/Nexus-Space/actions/comments_handler.php', {
             method: 'POST', // POST perché sto inviando dati
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body:
-                'id_opera=' + encodeURIComponent(currentOperaId) +
-                '&commento=' + encodeURIComponent(commentText)
-                // encodeURIComponent codifica spazi e caratteri speciali per evitare problemi di parsing
+            headers: { 'Content-Type': 'application/json'}, // Indico che sto inviando dati in formato JSON
+            body: JSON.stringify({
+                id_opera: currentOperaId,
+                commento: commentText
+            })
         })
         .then(response => {
 
@@ -143,10 +141,12 @@ document.querySelectorAll('.btn-like').forEach(button => {
 
         fetch('/Nexus-Space/actions/add_like.php', {
             method: 'POST',
-            headers: { // Indico che sto inviando dati in formato URL-encoded
-                'Content-Type': 'application/x-www-form-urlencoded'
+            headers: { 
+                'Content-Type': 'application/json'
             },
-            body: 'id_opera=' + encodeURIComponent(idOpera)
+            body: JSON.stringify({
+                id_opera: idOpera
+            })
         })
         .then(response => {
 
@@ -154,23 +154,23 @@ document.querySelectorAll('.btn-like').forEach(button => {
                 throw new Error("Errore HTTP");
             }
 
-            return response.text(); // Qui il server restituisce testo semplice
+            return response.json(); // Qui il server restituisce testo semplice
         })
         .then(response => {
 
-            if (response === 'not_logged') {
+            if (response.status === 'not_logged') {
                 window.location.href = '/Nexus-Space/pages/login.php';
                 return;
             }
 
-            if (response === 'added') {
+            if (response.status === 'added') {
 
                 button.innerText = '♥';
                 button.classList.add('liked');
                 countElem.textContent = count + 1;
             }
 
-            if (response === 'removed') {
+            if (response.status === 'removed') {
 
                 button.innerText = '♡';
                 button.classList.remove('liked');

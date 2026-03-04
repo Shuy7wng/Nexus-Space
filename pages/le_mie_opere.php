@@ -60,7 +60,7 @@ $risultato = $stmt->get_result();
 
                                 <!--Faccio diventare lo Stato una classe CSS (al posto degli spazi metto dei trattini-->
                                 <p class="stato <? echo strtolower(str_replace(' ', '-', $opera['Stato'])) ?>">
-                                    <?= $opera['Stato']; ?>
+                                    <? echo $opera['Stato']; ?>
                                 </p>
                             </div>
 
