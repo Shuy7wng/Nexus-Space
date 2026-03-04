@@ -12,7 +12,18 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 $id_evento = intval($_GET['id']);
 
 // Recupero delle opere dal DB
-$stmt = $conn->prepare("SELECT o.*, u.Nome AS Nome_Autore, u.Cognome AS Cognome_Autore FROM opere o INNER JOIN Utenti u ON o.ID_Utente = u.ID_Utente WHERE ID_Evento = ? AND Stato = 'Accettata'");
+$stmt = $conn->prepare("
+    SELECT 
+        o.*, 
+        u.Nome AS Nome_Utente, 
+        u.Cognome AS Cognome_Utente,
+        a.Nome AS Nome_Storico,
+        a.Cognome AS Cognome_Storico
+    FROM opere o
+    LEFT JOIN utenti u ON o.ID_Utente = u.ID_Utente
+    LEFT JOIN artisti_storici a ON o.ID_ArtistaS = a.ID_ArtistaS
+    WHERE o.ID_Evento = ? AND o.Stato = 'Accettata'
+");
 $stmt->bind_param("i", $id_evento);
 $stmt->execute();
 $risultato = $stmt->get_result();
@@ -55,7 +66,14 @@ $risultato = $stmt->get_result();
 
                             <div class="opera-info">
                                 <h3 class="playfair"><?php echo htmlspecialchars($opera['Titolo']); ?></h3>
-                                <p class="autore inter"><?php echo htmlspecialchars($opera['Nome_Autore'] . " " . $opera['Cognome_Autore']); ?></p>
+                                <?php
+                                $nome = $opera['Nome_Utente'] ?? $opera['Nome_Storico'];
+                                $cognome = $opera['Cognome_Utente'] ?? $opera['Cognome_Storico'];
+                                ?>
+
+                                <p class="autore inter">
+                                    <?php echo htmlspecialchars($nome . " " . $cognome); ?>
+                                </p>
                                 <p class="descrizione inter"><?php echo htmlspecialchars($opera['Descrizione']); ?></p>
 
                                 <div class="actions">
@@ -87,12 +105,12 @@ $risultato = $stmt->get_result();
                                     <!-- Span che mostra il numero di like dell'opera -->
                                     <!-- L'ID include l'ID dell'opera per permettere aggiornamenti dinamici tramite JS -->
                                     <span class="like-count" id="like-count-<?php echo $opera['ID_Opera']; ?>"><?php echo $num_likes; ?></span>
-                                    
+
                                     <!-- Pulsante per mettere o togliere il like -->
                                     <!-- La classe $like_class cambia se l'utente ha già messo like -->
                                     <!-- data-id contiene l'ID dell'opera per permettere azioni via JS -->
                                     <button class="btn-like <?php echo $like_class; ?>" data-id="<?php echo $opera['ID_Opera']; ?>"><?php echo $heart; ?></button>
-                                    
+
 
                                     <!-- Pulsante per aprire i commenti dell'opera -->
                                     <!-- data-id identifica a quale opera si riferiscono i commenti -->
@@ -113,7 +131,7 @@ $risultato = $stmt->get_result();
     <!-- --- MODAL COMMENTI FULL SCREEN (UNA SOLA VOLTA) --- -->
     <div id="comment-modal" style="display:none;">
         <div class="modal-content">
-            
+
             <!-- &times; è un entità HTML che rappresenta una X-->
             <span id="close-modal">&times;</span>
             <h2 class="modal-title">Commenti</h2>
@@ -137,4 +155,5 @@ $risultato = $stmt->get_result();
 
     <script src="/Nexus-Space/assets/js/dettagli.js"></script>
 </body>
+
 </html>

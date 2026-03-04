@@ -7,17 +7,19 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     die("ID opera non valido.");
 }
 $id_opera = intval($_GET['id']);
-
-// Recupero dati opera con autore e sponsor
 $stmt = $conn->prepare("
-    SELECT o.*, 
-           u.Nome AS Nome_Autore, 
-           u.Cognome AS Cognome_Autore,
-           u.Email, 
-           s.Nome AS Sponsor
+    SELECT 
+        o.*, 
+        u.Nome AS Nome_Utente, 
+        u.Cognome AS Cognome_Utente,
+        u.Email,
+        a.Nome AS Nome_Storico,
+        a.Cognome AS Cognome_Storico,
+        s.Nome AS Sponsor
     FROM opere o
-    INNER JOIN Utenti u ON o.ID_Utente = u.ID_Utente
-    LEFT JOIN Sponsor s ON o.ID_Sponsor = s.ID_Sponsor
+    LEFT JOIN utenti u ON o.ID_Utente = u.ID_Utente
+    LEFT JOIN artisti_storici a ON o.ID_ArtistaS = a.ID_ArtistaS
+    LEFT JOIN sponsor s ON o.ID_Sponsor = s.ID_Sponsor
     WHERE o.ID_Opera = ?
 ");
 $stmt->bind_param("i", $id_opera);
@@ -60,6 +62,7 @@ $stmt_count->close();
 ?>
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($opera['Titolo']); ?> - Nexus Space</title>
@@ -67,6 +70,7 @@ $stmt_count->close();
     <link rel="stylesheet" href="/Nexus-Space/assets/css/dettagli.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
     <main class="opera-dettaglio">
@@ -74,8 +78,8 @@ $stmt_count->close();
             <div class="opera-layout">
                 <!-- IMMAGINE -->
                 <div class="opera-img">
-                    <img src="/Nexus-Space/<?php echo htmlspecialchars($opera['Percorso_File']); ?>" 
-                         alt="<?php echo htmlspecialchars($opera['Titolo']); ?>">
+                    <img src="/Nexus-Space/<?php echo htmlspecialchars($opera['Percorso_File']); ?>"
+                        alt="<?php echo htmlspecialchars($opera['Titolo']); ?>">
                 </div>
 
                 <!-- INFO -->
@@ -83,10 +87,22 @@ $stmt_count->close();
                     <h1 class="playfair"><?php echo htmlspecialchars($opera['Titolo']); ?></h1>
 
                     <p class="anno inter"><strong>Anno:</strong> <?php echo htmlspecialchars($opera['Anno']); ?></p>
-                    <p class="autore inter"><strong>Autore:</strong> <?php echo htmlspecialchars($opera['Nome_Autore'] . " " . $opera['Cognome_Autore']); ?></p>
-                    <p class="contatti inter"><strong>Contatti:</strong> <?php echo htmlspecialchars($opera['Email']); ?></p>
+                    <?php
+                    $nome = $opera['Nome_Utente'] ?? $opera['Nome_Storico'];
+                    $cognome = $opera['Cognome_Utente'] ?? $opera['Cognome_Storico'];
+                    ?>
+                    <p class="autore inter">
+                        <strong>Autore:</strong>
+                        <?php echo htmlspecialchars($nome . " " . $cognome); ?>
+                    </p>
+                    <?php if (!empty($opera['Email'])): ?>
+                        <p class="contatti inter">
+                            <strong>Contatti:</strong>
+                            <?php echo htmlspecialchars($opera['Email']); ?>
+                        </p>
+                    <?php endif; ?>
                     <p class="sponsor inter"><strong>Tipo:</strong> <?php echo htmlspecialchars($opera['Tipo']); ?></p>
-                    
+
                     <!-- In base al tipo di opera, mostra i campi Tipo di tela o Materiale -->
                     <?php if ($opera['Tipo'] === 'Dipinto'): ?>
                         <p class="sponsor inter">
@@ -118,13 +134,13 @@ $stmt_count->close();
                         <?php if (!isset($_SESSION['user_id'])): ?>
                             <a href="/Nexus-Space/pages/login.php" class="btn-like">♡ Mi piace <?php echo $num_likes; ?></a>
                         <?php else: ?>
-                            
+
                             <!-- Se already_liked è TRUE, aggiunge la stringa liked al nome della classe, altrimenti non mette nulla -->
                             <button class="btn-like <?php echo $already_liked ? 'liked' : ''; ?>" data-id="<?php echo $id_opera; ?>">
                                 <?php echo $already_liked ? '♥' : '♡'; ?> <!-- Se already_liked è TRUE, mette il cuore pieno, altrimenti quello vuoto -->
                             </button>
-                            
-                            <!-- Per l'ID dello span si usa anche l'ID dell'opera --> 
+
+                            <!-- Per l'ID dello span si usa anche l'ID dell'opera -->
                             <span id="like-count-<?php echo $id_opera; ?>"><?php echo $num_likes; ?></span>
                         <?php endif; ?>
                     </div>
@@ -148,7 +164,7 @@ $stmt_count->close();
                 <p class="loading">Caricamento commenti...</p>
             </div>
 
-                <!-- Se l'utente è loggato, mostra il form per commentare -->
+            <!-- Se l'utente è loggato, mostra il form per commentare -->
             <?php if (isset($_SESSION['user_id'])): ?>
                 <form id="modal-comment-form">
                     <input type="text" name="commento" placeholder="Scrivi un commento..." required>
@@ -165,4 +181,5 @@ $stmt_count->close();
     <!-- Script separato: gestione like e commenti -->
     <script src="/Nexus-Space/assets/js/dettagli.js"></script>
 </body>
+
 </html>
