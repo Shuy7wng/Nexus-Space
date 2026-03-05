@@ -6,6 +6,8 @@ requireLogin();
 header('Content-Type: application/json');
 
 // Leggo il JSON
+// Json decode restituisce un array associativo se il secondo parametro è true, altrimenti un oggetto
+// File get contents legge tutto il contenuto del file, in questo caso php://input che è lo stream di input della richiesta HTTP, quindi il corpo della richiesta
 $input = json_decode(file_get_contents("php://input"), true);
 
 $id_opera = intval($input['id_opera'] ?? 0);

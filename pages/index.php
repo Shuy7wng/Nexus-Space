@@ -66,7 +66,7 @@ $result = $conn->query($sql);
             </p>
         </div>
     </section>
-    <hr>
+    <hr><br>
     <!-- SEZIONE OPERE -->
     <div class="gallery">
         <h2>Ultime opere</h2>
