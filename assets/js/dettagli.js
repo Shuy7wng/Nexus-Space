@@ -33,6 +33,8 @@ function loadComments(idOpera) {
         } else {
 
             // Inserisco i commenti nel modal, evidenziando il nickname in grassetto
+            // map trasforma ogni commento in una stringa HTML, 
+            // poi join unisce tutte le stringhe in un'unica stringa da inserire nel modal
             modalBody.innerHTML = comments.map(c =>
                 `<div class="comment"><strong>${c.nickname}</strong>: ${c.commento}</div>`
             ).join(''); // Unisce le stringhe: nomeUtente + commento
@@ -48,11 +50,12 @@ function loadComments(idOpera) {
 
 
 // --- APERTURA MODAL COMMENTI ---
-document.querySelectorAll('.btn-comment').forEach(button => {
+document.querySelectorAll('.btn-comment').forEach(button => { // Seleziono tutti i pulsanti "Commenta"
 
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function() { // Aggiungo un evento click a ciascun pulsante
 
-        // Recupero ID dal data-id (dataset legge attributi data-*)
+        // Prende l'id dell'opera dal data attribute del pulsante cliccato
+        // Dataset è un oggetto che contiene tutti gli attributi data-* dell'elemento HTML, in questo caso data-id
         currentOperaId = this.dataset.id;
 
         modal.style.display = 'flex';
@@ -81,19 +84,24 @@ if(commentForm){
 
     commentForm.addEventListener('submit', function(e){
 
-        e.preventDefault(); // Blocca il refresh della pagina
+        // Di default il form invia una richiesta HTTP e ricarica la pagina, 
+        // quindi prevengo il comportamento di default
+        e.preventDefault(); 
 
         // Se per qualche motivo non ho un'opera selezionata, esco
         if(!currentOperaId) return;
 
+        // Leggo il testo del commento dall'input del form, rimuovendo eventuali spazi all'inizio e alla fine
         const commentInput = commentForm.querySelector('input[name="commento"]');
         const commentText = commentInput.value.trim();
 
+        // Se il commento è vuoto, non invio la richiesta al server
         if(!commentText) return;
 
         fetch('/Nexus-Space/actions/comments_handler.php', {
             method: 'POST', // POST perché sto inviando dati
             headers: { 'Content-Type': 'application/json'}, // Indico che sto inviando dati in formato JSON
+            // Stringify converte l'oggetto JavaScript in una stringa JSON da inviare al server
             body: JSON.stringify({
                 id_opera: currentOperaId,
                 commento: commentText
