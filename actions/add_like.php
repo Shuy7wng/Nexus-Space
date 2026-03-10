@@ -3,11 +3,13 @@ require '../config/database.php';
 require '../pages/auth.php';
 requireLogin();
 
+// Imposto il tipo di contenuto della risposta come JSON
 header('Content-Type: application/json');
 
 // Leggo il JSON
 // Json decode restituisce un array associativo se il secondo parametro è true, altrimenti un oggetto
-// File get contents legge tutto il contenuto del file, in questo caso php://input che è lo stream di input della richiesta HTTP, quindi il corpo della richiesta
+// File get contents legge tutto il contenuto del file, in questo caso php://input che è lo stream di input della richiesta HTTP, 
+// quindi il corpo della richiesta
 $input = json_decode(file_get_contents("php://input"), true);
 
 $id_opera = intval($input['id_opera'] ?? 0);
@@ -23,7 +25,7 @@ $id_utente = $_SESSION['user_id'];
 $stmt = $conn->prepare("SELECT 1 FROM likes WHERE ID_Utente = ? AND ID_Opera = ?");
 $stmt->bind_param("ii", $id_utente, $id_opera);
 $stmt->execute();
-$stmt->store_result();
+$stmt->store_result(); // memorizza il risultato della query in memoria per poter usare num_rows
 
 // Se non lo ha fatto, la query ritorna 0 righe
 if ($stmt->num_rows == 0) {
@@ -49,6 +51,7 @@ if ($stmt->num_rows == 0) {
 
     // La risposta è "removed" se il like è stato rimosso, altrimenti "error"
     if ($delete->execute()) {
+        // Invio una risposta JSON con lo stato "removed"
         echo json_encode(['status' => 'removed']);
     } else {
         echo json_encode(['status' => 'error']);

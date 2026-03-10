@@ -1,4 +1,4 @@
-// --- Riferimenti agli elementi DOM ---
+// --- Riferimenti agli elementi del modal ---
 const modal = document.getElementById('comment-modal');
 const closeBtn = document.getElementById('close-modal');
 const modalBody = document.getElementById('modal-comment-list');
@@ -84,8 +84,8 @@ if(commentForm){
 
     commentForm.addEventListener('submit', function(e){
 
-        // Di default il form invia una richiesta HTTP e ricarica la pagina, 
-        // quindi prevengo il comportamento di default
+        // Di default il form quando invia una richiesta HTTP ricarica la pagina, 
+        // quindi prevengo il comportamento di default perché voglio gestire il tutto con AJAX
         e.preventDefault(); 
 
         // Se per qualche motivo non ho un'opera selezionata, esco

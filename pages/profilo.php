@@ -45,11 +45,23 @@ $likes = $stmt_like->get_result();
     - Se non si sposta, rimarrà lì e potrebbe essere cancellato automaticamente dal sistema dopo un certo periodo di tempo. 
     - Spostandolo in una cartella specifica del progetto (es. uploads/profili/) con un nome univoco, 
       garantisco che l'immagine sia accessibile e persistente per il profilo dell'utente.
+
+    L'array associativo $_FILES contiene informazioni sul file caricato, tra cui:
+    $_FILES = [
+    'new_pfp' => [
+        'name' => 'nomefile.jpg',        // nome originale del file caricato
+        'type' => 'image/jpeg',          // tipo del file
+        'tmp_name' => '/tmp/php12345',   // percorso temporaneo sul server 
+        'error' => 0,                    // codice di errore dell'upload (0 = nessun errore)
+        'size' => 34567                  // dimensione del file in byte
+    ]
+];
 */
 
 // Verifico se è stato inviato un nuovo file per la pfp e se non ci sono errori di upload
 if (isset($_FILES['new_pfp']) && $_FILES['new_pfp']['error'] == 0) {
 
+    // Estrazione dell'estensione del file
     $estensione = strtolower(pathinfo($_FILES['new_pfp']['name'], PATHINFO_EXTENSION));
 
     // Controllo dell'estensione
